@@ -1,52 +1,63 @@
-﻿using System;
+﻿using SmoothValidation.Types;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace SmoothValidation
 {
-    public class PropertyValidator<TProp> : IPropertyValidator, IValidator<TProp>
+    public class PropertyValidator<TProp> : IPropertyValidator, IValidatable<TProp>
     {
-        private readonly PropertyInfo _property;
-        private IValidator<TProp> _otherValidator;
-        private readonly List<ValidationRule<TProp>> _rules;
+        private readonly List<ValidationRule<TProp>> _rules = new List<ValidationRule<TProp>>();
+        private IValidatable<TProp> _otherValidatable;
+        private readonly List<IValidator> _validators = new List<IValidator>();
 
         public PropertyValidator(PropertyInfo property)
         {
-            _property = property ?? throw new ArgumentNullException(nameof(property));
-            _rules = new List<ValidationRule<TProp>>();
+            Property = property ?? throw new ArgumentNullException(nameof(property));
         }
 
-        public IList<string> Validate(object obj)
-        {
-            var propertyValueAsObj = _property.GetValue(obj);
-            var propertyValue = (TProp)Convert.ChangeType(propertyValueAsObj, typeof(TProp));
+        public PropertyInfo Property { get; }
 
-            return Validate(propertyValue);
+        public IList<PropertyValidationError> Validate(object obj)
+        {
+            return Validate((TProp)obj);
         }
 
-        public IList<string> Validate(TProp obj)
+        public IList<PropertyValidationError> Validate(TProp obj)
         {
-            if (_otherValidator != null)
-            {
-                return _otherValidator.Validate(obj);
-            }
+            var validationErrors = new List<PropertyValidationError>();
 
-            var validationErrors = new List<string>();
-            foreach (var validationRule in _rules)
+            foreach (var validator in _validators)
             {
-                var validationResult = validationRule.Validate(obj);
-                if (validationResult != null)
+                var validationErrorsForValidator = validator.Validate(obj);
+                if (!(validator is IRootValidator))
                 {
-                    validationErrors.Add(validationResult);
+                    foreach (var propertyValidationError in validationErrorsForValidator)
+                    {
+                        propertyValidationError.PropertyName = propertyValidationError.PropertyName == string.Empty
+                            ? Property.Name
+                            : $"{Property.Name}.{propertyValidationError.PropertyName}";
+                    }
                 }
+
+                validationErrors.AddRange(validationErrorsForValidator);
             }
 
             return validationErrors;
         }
 
-        public void SetValidator(IValidator<TProp> otherValidator)
+        public PropertyValidator<TProp> SetValidator(IValidatable<TProp> otherValidatable)
         {
-            _otherValidator = otherValidator ?? throw new ArgumentNullException(nameof(otherValidator));
+            if (otherValidatable == this)
+            {
+                throw new ValidatorSetupException("Detected circular reference");
+            }
+
+            // TODO: Change exception type?
+            _otherValidatable = otherValidatable ?? throw new ArgumentNullException(nameof(otherValidatable));
+            _validators.Add(otherValidatable);
+
+            return this;
         }
 
         public PropertyValidator<TProp> AddRule(Predicate<TProp> predicate, string errorMessage)
@@ -54,7 +65,23 @@ namespace SmoothValidation
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             if (errorMessage == null) throw new ArgumentNullException(nameof(errorMessage));
 
-            _rules.Add(new ValidationRule<TProp>(predicate, errorMessage));
+            var validationRule = new ValidationRule<TProp>(predicate, errorMessage);
+            _validators.Add(validationRule);
+            _rules.Add(validationRule);
+
+            return this;
+        }
+
+        public PropertyValidator<TProp> UnsetValidator()
+        {
+            _otherValidatable = null;
+
+            return this;
+        }
+
+        public PropertyValidator<TProp> ClearRules()
+        {
+            _rules.Clear();
 
             return this;
         }

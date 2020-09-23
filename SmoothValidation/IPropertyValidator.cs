@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using SmoothValidation.Types;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace SmoothValidation
 {
     public interface IPropertyValidator
     {
-        IList<string> Validate(object obj);
+        PropertyInfo Property { get; }
+        IList<PropertyValidationError> Validate(object obj);
     }
 }

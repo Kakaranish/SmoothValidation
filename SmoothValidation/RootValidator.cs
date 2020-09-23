@@ -1,31 +1,44 @@
-﻿using System;
+﻿using SmoothValidation.Types;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace SmoothValidation
 {
-    public class RootValidator<TObject> : IValidator<TObject>
+    public class RootValidator<TObject> : IRootValidator, IValidatable<TObject>
     {
-        private readonly IDictionary<string, IPropertyValidator> _propertyValidators;
+        private readonly IDictionary<string, IPropertyValidator> _propertyValidators =
+            new Dictionary<string, IPropertyValidator>();
 
-        public RootValidator()
+        public IList<PropertyValidationError> Validate(object obj)
         {
-            _propertyValidators = new Dictionary<string, IPropertyValidator>();
+            return Validate((TObject)obj);
         }
 
-        public IList<string> Validate(TObject obj)
+        public IList<PropertyValidationError> Validate(TObject obj)
         {
-            var validationErrors = new List<string>();
-            foreach (var propertyValidator in _propertyValidators.Values)
+            var validationErrors = new List<PropertyValidationError>();
+
+            foreach (var propertyValidatorKvp in _propertyValidators)
             {
-                validationErrors.AddRange(propertyValidator.Validate(obj));
+                var propertyValidator = propertyValidatorKvp.Value;
+                var propertyValue = propertyValidator.Property.GetValue(obj);
+
+                var errorsForValidator = propertyValidator.Validate(propertyValue);
+
+                foreach (var propertyValidationError in errorsForValidator)
+                {
+                    if (propertyValidationError.PropertyName != propertyValidatorKvp.Key)
+                    {
+                        propertyValidationError.PropertyName = $"{propertyValidatorKvp.Key}.{propertyValidationError.PropertyName}";
+                    }
+                }
+
+                validationErrors.AddRange(errorsForValidator);
             }
 
-            return validationErrors.Any()
-                ? validationErrors
-                : null;
+            return validationErrors;
         }
 
         public PropertyValidator<TProp> Setup<TProp>(Expression<Func<TObject, TProp>> expression)
@@ -34,12 +47,12 @@ namespace SmoothValidation
 
             if (_propertyValidators.TryGetValue(propertyInfo.Name, out var propertyValidator))
             {
-                return (PropertyValidator<TProp>) propertyValidator;
+                return (PropertyValidator<TProp>)propertyValidator;
             }
 
             var newPropertyValidator = new PropertyValidator<TProp>(propertyInfo);
             _propertyValidators.Add(propertyInfo.Name, newPropertyValidator);
-            
+
             return newPropertyValidator;
         }
 
