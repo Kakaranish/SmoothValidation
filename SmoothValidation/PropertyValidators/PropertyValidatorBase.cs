@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using SmoothValidation.Types.Exceptions;
 using SmoothValidation.ValidationRules;
@@ -7,11 +8,21 @@ using SmoothValidation.ValidatorsAbstraction;
 
 namespace SmoothValidation.PropertyValidators
 {
+    public class ValidationTask
+    {
+        public IValidator Validator { get; }
+        public bool IsOtherValidator { get; set; } = false;
+        public bool StopValidationAfterFailure { get; set; }
+        
+        public ValidationTask(IValidator validator)
+        {
+            Validator = validator ?? throw new ArgumentNullException(nameof(validator));
+        }
+    }
+
     public abstract class PropertyValidatorBase<TPropertyValidator, TProp>
     {
-        protected readonly List<IValidator> Rules = new List<IValidator>();
-        protected IValidator OtherValidator;
-        protected readonly List<IValidator> Validators = new List<IValidator>();
+        protected readonly List<ValidationTask> ValidationTasks = new List<ValidationTask>();
 
         protected PropertyValidatorBase(PropertyInfo property)
         {
@@ -27,23 +38,23 @@ namespace SmoothValidation.PropertyValidators
             if (errorMessage == null) throw new ArgumentNullException(nameof(errorMessage));
 
             var validationRule = new SyncValidationRule<TProp>(predicate, errorMessage, errorCode);
-            Rules.Add(validationRule);
-            Validators.Add(validationRule);
+            ValidationTasks.Add(new ValidationTask(validationRule));
 
             return PropertyValidator;
         }
 
         public TPropertyValidator SetValidator(ISyncValidator<TProp> otherValidator)
         {
-            if (otherValidator == this)
+            if (otherValidator == null) throw new ArgumentNullException(nameof(otherValidator));
+            if (otherValidator == this) throw new ValidatorSetupException("Detected circular reference");
+
+            if(ValidationTasks.Any(task => task.IsOtherValidator))
             {
-                throw new ValidatorSetupException("Detected circular reference");
+                throw new ValidatorSetupException("There is already set other validator");
             }
 
-            // TODO: Change exception type?
-            OtherValidator = otherValidator ?? throw new ArgumentNullException(nameof(otherValidator));
-            Validators.Add(otherValidator);
-
+            ValidationTasks.Add(new ValidationTask(otherValidator));
+            
             return PropertyValidator;
         }
     }

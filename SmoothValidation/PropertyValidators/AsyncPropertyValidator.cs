@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using SmoothValidation.RootValidators;
@@ -28,19 +29,19 @@ namespace SmoothValidation.PropertyValidators
         {
             var validationErrors = new List<PropertyValidationError>();
 
-            foreach (var validator in Validators)
+            foreach (var validationTask in ValidationTasks)
             {
-
                 IList<PropertyValidationError> validationErrorsForValidator;
-                IValidator currentValidator;
-                if (validator is ISyncValidator syncValidator)
+                IValidator validator;
+
+                if (validationTask.Validator is ISyncValidator syncValidator)
                 {
-                    currentValidator = syncValidator;
+                    validator = syncValidator;
                     validationErrorsForValidator = syncValidator.Validate(obj);
                 }
-                else if (validator is IAsyncValidator asyncValidator)
+                else if (validationTask.Validator is IAsyncValidator asyncValidator)
                 {
-                    currentValidator = asyncValidator;
+                    validator = asyncValidator;
                     validationErrorsForValidator = await asyncValidator.Validate(obj);
                 }
                 else
@@ -48,7 +49,7 @@ namespace SmoothValidation.PropertyValidators
                     throw new InvalidOperationException(); // TODO: Add exception info
                 }
                 
-                if (!(currentValidator is IRootValidator))
+                if (!(validator is IRootValidator))
                 {
                     foreach (var propertyValidationError in validationErrorsForValidator)
                     {
@@ -66,13 +67,15 @@ namespace SmoothValidation.PropertyValidators
 
         public AsyncPropertyValidator<TProp> SetValidator(IAsyncValidator<TProp> otherValidator)
         {
-            if (otherValidator == this)
+            if (otherValidator == null) throw new ArgumentNullException(nameof(otherValidator));
+            if (otherValidator == this) throw new ValidatorSetupException("Detected circular reference");
+
+            if (ValidationTasks.Any(task => task.IsOtherValidator))
             {
-                throw new ValidatorSetupException("Detected circular reference");
+                throw new ValidatorSetupException("There is already set other validator");
             }
 
-            OtherValidator = otherValidator ?? throw new ArgumentNullException(nameof(otherValidator)); // TODO: Change exception type?
-            Validators.Add(otherValidator);
+            ValidationTasks.Add(new ValidationTask(otherValidator));
 
             return this;
         }
@@ -83,8 +86,7 @@ namespace SmoothValidation.PropertyValidators
             if (errorMessage == null) throw new ArgumentNullException(nameof(errorMessage));
 
             var validationRule = new AsyncValidationRule<TProp>(predicate, errorMessage, errorCode);
-            Rules.Add(validationRule);
-            Validators.Add(validationRule);
+            ValidationTasks.Add(new ValidationTask(validationRule));
 
             return this;
         }

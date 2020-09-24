@@ -24,12 +24,12 @@ namespace SmoothValidation.PropertyValidators
         {
             var validationErrors = new List<PropertyValidationError>();
 
-            foreach (var validator in Validators)
+            foreach (var validationTask in ValidationTasks)
             {
-                var syncValidator = (ISyncValidator) validator;
+                var validator = (ISyncValidator) validationTask.Validator;
 
-                var validationErrorsForValidator = syncValidator.Validate(obj);
-                if (!(syncValidator is IRootValidator))
+                var validationErrorsForValidator = validator.Validate(obj);
+                if (!(validator is IRootValidator))
                 {
                     foreach (var propertyValidationError in validationErrorsForValidator)
                     {
