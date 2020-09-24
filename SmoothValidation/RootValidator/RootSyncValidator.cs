@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SmoothValidation.RootValidator
 {
-    public class RootSyncValidator<TObject> : RootValidatorBase<TObject>, IRootValidator, ISyncValidatable<TObject>
+    public class RootSyncValidator<TObject> : ValidatorBase<TObject>, IRootValidator, ISyncValidatable<TObject>
     {
         public IList<PropertyValidationError> Validate(object obj)
         {

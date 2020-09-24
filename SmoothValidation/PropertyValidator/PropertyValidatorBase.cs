@@ -18,7 +18,7 @@ namespace SmoothValidation.PropertyValidator
             Property = property ?? throw new ArgumentNullException(nameof(property));
         }
 
-        public abstract TPropertyValidator PropertyValidator { get; }
+        protected abstract TPropertyValidator PropertyValidator { get; }
         public PropertyInfo Property { get; }
 
         public TPropertyValidator AddRule(Predicate<TProp> predicate, string errorMessage, string errorCode = null)

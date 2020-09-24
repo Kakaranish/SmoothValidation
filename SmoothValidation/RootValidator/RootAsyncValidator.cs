@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SmoothValidation.RootValidator
 {
-    public class RootAsyncValidator<TObject> : RootValidatorBase<TObject>, IRootValidator, IAsyncValidatable<TObject>
+    public class RootAsyncValidator<TObject> : ValidatorBase<TObject>, IRootValidator, IAsyncValidatable<TObject>
     {
         public async Task<IList<PropertyValidationError>> Validate(object obj)
         {

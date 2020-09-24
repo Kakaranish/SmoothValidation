@@ -2,7 +2,7 @@
 
 namespace SmoothValidation.ValidationRule
 {
-    public abstract class ValidationRuleBase
+    internal abstract class ValidationRuleBase
     {
         protected readonly string ErrorMessage;
         protected readonly string ErrorCode;

@@ -5,7 +5,7 @@ using SmoothValidation.Types;
 
 namespace SmoothValidation.ValidationRule
 {
-    public class SyncValidationRule<TProp> : ValidationRuleBase, ISyncValidatable<TProp>
+    internal class SyncValidationRule<TProp> : ValidationRuleBase, ISyncValidatable<TProp>
     {
         private readonly Predicate<TProp> _validationPredicate;
 

@@ -16,7 +16,7 @@ namespace SmoothValidation.PropertyValidator
         {
         }
 
-        public override AsyncPropertyValidator<TProp> PropertyValidator => this;
+        protected override AsyncPropertyValidator<TProp> PropertyValidator => this;
 
         public async Task<IList<PropertyValidationError>> Validate(object obj)
         {
@@ -76,7 +76,7 @@ namespace SmoothValidation.PropertyValidator
             return this;
         }
 
-        public AsyncPropertyValidator<TProp> AddAsyncRule(Func<TProp, Task<bool>> predicate, string errorMessage, string errorCode = null)
+        public AsyncPropertyValidator<TProp> AddRule(Func<TProp, Task<bool>> predicate, string errorMessage, string errorCode = null)
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             if (errorMessage == null) throw new ArgumentNullException(nameof(errorMessage));

@@ -6,7 +6,7 @@ using SmoothValidation.PropertyValidator;
 
 namespace SmoothValidation.RootValidator
 {
-    public abstract class RootValidatorBase<TObject>
+    public abstract class ValidatorBase<TObject>
     {
         protected readonly IDictionary<string, IPropertyValidator> PropertyValidators =
             new Dictionary<string, IPropertyValidator>();

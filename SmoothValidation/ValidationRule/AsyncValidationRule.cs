@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmoothValidation.ValidationRule
 {
-    public class AsyncValidationRule<TProp> : ValidationRuleBase, IAsyncValidatable<TProp>
+    internal class AsyncValidationRule<TProp> : ValidationRuleBase, IAsyncValidatable<TProp>
     {
         private readonly Func<TProp, Task<bool>> _validationPredicate;
 
