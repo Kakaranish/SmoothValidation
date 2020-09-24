@@ -1,28 +1,18 @@
-﻿using System;
+﻿using SmoothValidation.Types.Exceptions;
+using SmoothValidation.ValidationRules;
+using SmoothValidation.ValidatorsAbstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SmoothValidation.Types.Exceptions;
-using SmoothValidation.ValidationRules;
-using SmoothValidation.ValidatorsAbstraction;
+using SmoothValidation.Types;
 
 namespace SmoothValidation.PropertyValidators
 {
-    public class ValidationTask
-    {
-        public IValidator Validator { get; }
-        public bool IsOtherValidator { get; set; } = false;
-        public bool StopValidationAfterFailure { get; set; }
-        
-        public ValidationTask(IValidator validator)
-        {
-            Validator = validator ?? throw new ArgumentNullException(nameof(validator));
-        }
-    }
-
     public abstract class PropertyValidatorBase<TPropertyValidator, TProp>
     {
         protected readonly List<ValidationTask> ValidationTasks = new List<ValidationTask>();
+        protected string OverridenPropertyDisplayName { get; private set; }
 
         protected PropertyValidatorBase(PropertyInfo property)
         {
@@ -39,7 +29,7 @@ namespace SmoothValidation.PropertyValidators
 
             var validationRule = new SyncValidationRule<TProp>(predicate, errorMessage, errorCode);
             ValidationTasks.Add(new ValidationTask(validationRule));
-
+            
             return PropertyValidator;
         }
 
@@ -66,6 +56,36 @@ namespace SmoothValidation.PropertyValidators
                 lastValidationTask.StopValidationAfterFailure = true;
             }
             
+            return PropertyValidator;
+        }
+
+        public TPropertyValidator WithMessage(string message)
+        {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+            var lastValidationTask = ValidationTasks.LastOrDefault();
+            if (lastValidationTask != null)
+            {
+                lastValidationTask.PropertyValidationErrorTransformation.OverridenMessage = message;
+            }
+
+            return PropertyValidator;
+        }
+
+        public TPropertyValidator SetPropertyDisplayName(string propertyName)
+        {
+            OverridenPropertyDisplayName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
+
+            return PropertyValidator;
+        }
+
+        public TPropertyValidator WithCode(string code)
+        {
+            var lastValidationTask = ValidationTasks.LastOrDefault();
+            if (lastValidationTask != null)
+            {
+                lastValidationTask.PropertyValidationErrorTransformation.OverriddenCode = code;
+            }
+
             return PropertyValidator;
         }
     }

@@ -30,13 +30,24 @@ namespace SmoothValidation.PropertyValidators
                 var validator = (ISyncValidator) validationTask.Validator;
 
                 var validationErrorsForValidator = validator.Validate(obj);
-                if (!(validator is IRootValidator))
-                {
+                
                     foreach (var propertyValidationError in validationErrorsForValidator)
                     {
-                        propertyValidationError.PropertyName = propertyValidationError.PropertyName == string.Empty
-                            ? Property.Name
-                            : $"{Property.Name}.{propertyValidationError.PropertyName}";
+                        if (!(validator is IRootValidator))
+                        {
+                            propertyValidationError.PropertyName = propertyValidationError.PropertyName == string.Empty
+                                ? Property.Name
+                                : $"{Property.Name}.{propertyValidationError.PropertyName}";
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(OverridenPropertyDisplayName))
+                        {
+                            var notChangedPropertyNamePart = string.Join(".", propertyValidationError.PropertyName.Split('.').Skip(1));
+                            propertyValidationError.PropertyName = notChangedPropertyNamePart != string.Empty
+                                ? $"{OverridenPropertyDisplayName}.{notChangedPropertyNamePart}"
+                                : OverridenPropertyDisplayName;
+                        }
+                        propertyValidationError.ApplyTransformation(validationTask.PropertyValidationErrorTransformation);
                     }
 
                     validationErrors.AddRange(validationErrorsForValidator);
@@ -45,8 +56,6 @@ namespace SmoothValidation.PropertyValidators
                     {
                         break;
                     }
-                }
-
             }
 
             return validationErrors;

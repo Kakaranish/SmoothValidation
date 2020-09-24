@@ -22,7 +22,6 @@ namespace SmoothValidation.RootValidators
                 var propertyValue = propertyValidator.Property.GetValue(obj);
 
                 var errorsForValidator = propertyValidator.Validate(propertyValue);
-
                 foreach (var propertyValidationError in errorsForValidator)
                 {
                     if (propertyValidationError.PropertyName != propertyValidatorKvp.Key)
