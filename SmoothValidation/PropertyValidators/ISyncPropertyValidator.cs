@@ -2,7 +2,7 @@
 using System.Reflection;
 using SmoothValidation.Types;
 
-namespace SmoothValidation.PropertyValidator
+namespace SmoothValidation.PropertyValidators
 {
     public interface ISyncPropertyValidator : IPropertyValidator
     {

@@ -1,13 +1,14 @@
-﻿using SmoothValidation.PropertyValidator;
-using SmoothValidation.Types;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using SmoothValidation.PropertyValidators;
+using SmoothValidation.Types;
+using SmoothValidation.ValidatorsAbstraction;
 
-namespace SmoothValidation.RootValidator
+namespace SmoothValidation.RootValidators
 {
-    public class RootAsyncValidator<TObject> : ValidatorBase<TObject>, IRootValidator, IAsyncValidatable<TObject>
+    public abstract class RootAsyncValidator<TObject> : ValidatorBase<TObject>, IRootValidator, IAsyncValidator<TObject>
     {
         public async Task<IList<PropertyValidationError>> Validate(object obj)
         {
@@ -21,15 +22,15 @@ namespace SmoothValidation.RootValidator
             foreach (var propertyValidatorKvp in PropertyValidators)
             {
                 IList<PropertyValidationError> validationErrorsForValidator;
-                if (propertyValidatorKvp.Value is ISyncPropertyValidator syncValidatable)
+                if (propertyValidatorKvp.Value is ISyncPropertyValidator syncPropertyValidator)
                 {
-                    var propertyValue = syncValidatable.Property.GetValue(obj);
-                    validationErrorsForValidator = syncValidatable.Validate(propertyValue);
+                    var propertyValue = syncPropertyValidator.Property.GetValue(obj);
+                    validationErrorsForValidator = syncPropertyValidator.Validate(propertyValue);
                 }
-                else if (propertyValidatorKvp.Value is IAsyncPropertyValidator asyncValidatable)
+                else if (propertyValidatorKvp.Value is IAsyncPropertyValidator asyncPropertyValidator)
                 {
-                    var propertyValue = asyncValidatable.Property.GetValue(obj);
-                    validationErrorsForValidator = await asyncValidatable.Validate(propertyValue);
+                    var propertyValue = asyncPropertyValidator.Property.GetValue(obj);
+                    validationErrorsForValidator = await asyncPropertyValidator.Validate(propertyValue);
                 }
                 else
                 {

@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using SmoothValidation.RootValidator;
+using System.Threading.Tasks;
 using SmoothValidation.Types;
+using SmoothValidation.ValidatorsAbstraction;
 
-namespace SmoothValidation.ValidationRule
+namespace SmoothValidation.ValidationRules
 {
-    internal class SyncValidationRule<TProp> : ValidationRuleBase, ISyncValidatable<TProp>
+    internal class AsyncValidationRule<TProp> : ValidationRuleBase, IAsyncValidator<TProp>
     {
-        private readonly Predicate<TProp> _validationPredicate;
+        private readonly Func<TProp, Task<bool>> _validationPredicate;
 
-        public SyncValidationRule(Predicate<TProp> validationPredicate, string errorMessage, string errorCode = null) : 
-            base(errorMessage, errorCode)
+        public AsyncValidationRule(Func<TProp, Task<bool>> validationPredicate, string message, string errorCode = null) :
+            base(message, errorCode)
         {
             _validationPredicate = validationPredicate ?? throw new ArgumentNullException(nameof(validationPredicate));
         }
 
-        public IList<PropertyValidationError> Validate(object obj)
+        public async Task<IList<PropertyValidationError>> Validate(object obj)
         {
-            return Validate((TProp)obj);
+            return await Validate((TProp)obj);
         }
 
-        public IList<PropertyValidationError> Validate(TProp obj)
+        public async Task<IList<PropertyValidationError>> Validate(TProp obj)
         {
-            var isValid = _validationPredicate.Invoke(obj);
-            
+            var isValid = await _validationPredicate.Invoke(obj);
+
             return isValid
                 ? new List<PropertyValidationError>()
                 : new List<PropertyValidationError>

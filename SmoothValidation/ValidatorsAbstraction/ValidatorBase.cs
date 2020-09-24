@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using SmoothValidation.PropertyValidator;
+using SmoothValidation.PropertyValidators;
 
-namespace SmoothValidation.RootValidator
+namespace SmoothValidation.ValidatorsAbstraction
 {
     public abstract class ValidatorBase<TObject>
     {

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
-using SmoothValidation.RootValidator;
+using SmoothValidation.RootValidators;
 using SmoothValidation.Types;
-using SmoothValidation.Types.Exceptions;
+using SmoothValidation.ValidatorsAbstraction;
 
-namespace SmoothValidation.PropertyValidator
+namespace SmoothValidation.PropertyValidators
 {
     public class SyncPropertyValidator<TProp> : PropertyValidatorBase<SyncPropertyValidator<TProp>, TProp>, 
-        ISyncPropertyValidator, ISyncValidatable<TProp>
+        ISyncPropertyValidator, ISyncValidator<TProp>
     {
         public SyncPropertyValidator(PropertyInfo property) : base(property)
         {
@@ -25,12 +24,12 @@ namespace SmoothValidation.PropertyValidator
         {
             var validationErrors = new List<PropertyValidationError>();
 
-            foreach (var validatable in Validators)
+            foreach (var validator in Validators)
             {
-                var validator = (ISyncValidatable) validatable;
+                var syncValidator = (ISyncValidator) validator;
 
-                var validationErrorsForValidator = validator.Validate(obj);
-                if (!(validator is IRootValidator))
+                var validationErrorsForValidator = syncValidator.Validate(obj);
+                if (!(syncValidator is IRootValidator))
                 {
                     foreach (var propertyValidationError in validationErrorsForValidator)
                     {

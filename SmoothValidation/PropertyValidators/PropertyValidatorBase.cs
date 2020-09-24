@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using SmoothValidation.RootValidator;
 using SmoothValidation.Types.Exceptions;
-using SmoothValidation.ValidationRule;
+using SmoothValidation.ValidationRules;
+using SmoothValidation.ValidatorsAbstraction;
 
-namespace SmoothValidation.PropertyValidator
+namespace SmoothValidation.PropertyValidators
 {
     public abstract class PropertyValidatorBase<TPropertyValidator, TProp>
     {
-        protected readonly List<IValidatable> Rules = new List<IValidatable>();
-        protected IValidatable OtherValidator;
-        protected readonly List<IValidatable> Validators = new List<IValidatable>();
+        protected readonly List<IValidator> Rules = new List<IValidator>();
+        protected IValidator OtherValidator;
+        protected readonly List<IValidator> Validators = new List<IValidator>();
 
         protected PropertyValidatorBase(PropertyInfo property)
         {
@@ -33,16 +33,16 @@ namespace SmoothValidation.PropertyValidator
             return PropertyValidator;
         }
 
-        public TPropertyValidator SetValidator(ISyncValidatable<TProp> otherValidatable)
+        public TPropertyValidator SetValidator(ISyncValidator<TProp> otherValidator)
         {
-            if (otherValidatable == this)
+            if (otherValidator == this)
             {
                 throw new ValidatorSetupException("Detected circular reference");
             }
 
             // TODO: Change exception type?
-            OtherValidator = otherValidatable ?? throw new ArgumentNullException(nameof(otherValidatable));
-            Validators.Add(otherValidatable);
+            OtherValidator = otherValidator ?? throw new ArgumentNullException(nameof(otherValidator));
+            Validators.Add(otherValidator);
 
             return PropertyValidator;
         }

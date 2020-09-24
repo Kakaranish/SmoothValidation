@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SmoothValidation.ValidationRule
+namespace SmoothValidation.ValidationRules
 {
     internal abstract class ValidationRuleBase
     {

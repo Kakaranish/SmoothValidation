@@ -1,16 +1,17 @@
-﻿using SmoothValidation.RootValidator;
-using SmoothValidation.Types;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using SmoothValidation.RootValidators;
+using SmoothValidation.Types;
 using SmoothValidation.Types.Exceptions;
-using SmoothValidation.ValidationRule;
+using SmoothValidation.ValidationRules;
+using SmoothValidation.ValidatorsAbstraction;
 
-namespace SmoothValidation.PropertyValidator
+namespace SmoothValidation.PropertyValidators
 {
     public class AsyncPropertyValidator<TProp> : PropertyValidatorBase<AsyncPropertyValidator<TProp>, TProp>,
-        IAsyncPropertyValidator, IAsyncValidatable<TProp>
+        IAsyncPropertyValidator, IAsyncValidator<TProp>
     {
         public AsyncPropertyValidator(PropertyInfo property) : base(property)
         {
@@ -27,27 +28,27 @@ namespace SmoothValidation.PropertyValidator
         {
             var validationErrors = new List<PropertyValidationError>();
 
-            foreach (var validatable in Validators)
+            foreach (var validator in Validators)
             {
 
                 IList<PropertyValidationError> validationErrorsForValidator;
-                IValidatable currentValidatable;
-                if (validatable is ISyncValidatable syncValidatable)
+                IValidator currentValidator;
+                if (validator is ISyncValidator syncValidator)
                 {
-                    currentValidatable = syncValidatable;
-                    validationErrorsForValidator = syncValidatable.Validate(obj);
+                    currentValidator = syncValidator;
+                    validationErrorsForValidator = syncValidator.Validate(obj);
                 }
-                else if (validatable is IAsyncValidatable asyncValidatable)
+                else if (validator is IAsyncValidator asyncValidator)
                 {
-                    currentValidatable = asyncValidatable;
-                    validationErrorsForValidator = await asyncValidatable.Validate(obj);
+                    currentValidator = asyncValidator;
+                    validationErrorsForValidator = await asyncValidator.Validate(obj);
                 }
                 else
                 {
                     throw new InvalidOperationException(); // TODO: Add exception info
                 }
                 
-                if (!(currentValidatable is IRootValidator))
+                if (!(currentValidator is IRootValidator))
                 {
                     foreach (var propertyValidationError in validationErrorsForValidator)
                     {
@@ -63,15 +64,15 @@ namespace SmoothValidation.PropertyValidator
             return validationErrors;
         }
 
-        public AsyncPropertyValidator<TProp> SetValidator(IAsyncValidatable<TProp> otherValidatable)
+        public AsyncPropertyValidator<TProp> SetValidator(IAsyncValidator<TProp> otherValidator)
         {
-            if (otherValidatable == this)
+            if (otherValidator == this)
             {
                 throw new ValidatorSetupException("Detected circular reference");
             }
 
-            OtherValidator = otherValidatable ?? throw new ArgumentNullException(nameof(otherValidatable)); // TODO: Change exception type?
-            Validators.Add(otherValidatable);
+            OtherValidator = otherValidator ?? throw new ArgumentNullException(nameof(otherValidator)); // TODO: Change exception type?
+            Validators.Add(otherValidator);
 
             return this;
         }

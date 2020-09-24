@@ -1,9 +1,9 @@
-﻿using SmoothValidation.Types;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using SmoothValidation.Types;
 
-namespace SmoothValidation.PropertyValidator
+namespace SmoothValidation.PropertyValidators
 {
     public interface IAsyncPropertyValidator : IPropertyValidator
     {
