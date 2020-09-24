@@ -4,11 +4,8 @@ using System.Collections.Generic;
 
 namespace SmoothValidation.RootValidator
 {
-    public class RootSyncValidator<TObject> : RootValidatorBase<RootSyncValidator<TObject>, TObject>, IRootValidator,
-        ISyncValidatable<TObject>
+    public class RootSyncValidator<TObject> : RootValidatorBase<TObject>, IRootValidator, ISyncValidatable<TObject>
     {
-        protected override RootSyncValidator<TObject> Builder => this;
-
         public IList<PropertyValidationError> Validate(object obj)
         {
             return Validate((TObject)obj);

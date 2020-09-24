@@ -6,12 +6,10 @@ using SmoothValidation.PropertyValidator;
 
 namespace SmoothValidation.RootValidator
 {
-    public abstract class RootValidatorBase<TBuilder, TObject>
+    public abstract class RootValidatorBase<TObject>
     {
         protected readonly IDictionary<string, IPropertyValidator> PropertyValidators =
             new Dictionary<string, IPropertyValidator>();
-
-        protected abstract TBuilder Builder { get; }
 
         public SyncPropertyValidator<TProp> Setup<TProp>(Expression<Func<TObject, TProp>> expression)
         {

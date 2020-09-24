@@ -1,20 +1,17 @@
-﻿using System;
+﻿using SmoothValidation.PropertyValidator;
+using SmoothValidation.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using SmoothValidation.PropertyValidator;
-using SmoothValidation.Types;
 
 namespace SmoothValidation.RootValidator
 {
-    public class RootAsyncValidator<TObject> : RootValidatorBase<RootAsyncValidator<TObject>, TObject>, IRootValidator, 
-        IAsyncValidatable<TObject>
+    public class RootAsyncValidator<TObject> : RootValidatorBase<TObject>, IRootValidator, IAsyncValidatable<TObject>
     {
-        protected override RootAsyncValidator<TObject> Builder => this;
-
         public async Task<IList<PropertyValidationError>> Validate(object obj)
         {
-            return await Validate((TObject) obj);
+            return await Validate((TObject)obj);
         }
 
         public async Task<IList<PropertyValidationError>> Validate(TObject obj)

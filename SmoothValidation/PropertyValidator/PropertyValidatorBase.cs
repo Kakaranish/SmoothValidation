@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using SmoothValidation.RootValidator;
+using SmoothValidation.Types.Exceptions;
 using SmoothValidation.ValidationRule;
 
 namespace SmoothValidation.PropertyValidator
@@ -27,6 +29,20 @@ namespace SmoothValidation.PropertyValidator
             var validationRule = new SyncValidationRule<TProp>(predicate, errorMessage, errorCode);
             Rules.Add(validationRule);
             Validators.Add(validationRule);
+
+            return PropertyValidator;
+        }
+
+        public TPropertyValidator SetValidator(ISyncValidatable<TProp> otherValidatable)
+        {
+            if (otherValidatable == this)
+            {
+                throw new ValidatorSetupException("Detected circular reference");
+            }
+
+            // TODO: Change exception type?
+            OtherValidator = otherValidatable ?? throw new ArgumentNullException(nameof(otherValidatable));
+            Validators.Add(otherValidatable);
 
             return PropertyValidator;
         }

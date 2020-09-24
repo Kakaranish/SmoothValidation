@@ -45,19 +45,5 @@ namespace SmoothValidation.PropertyValidator
 
             return validationErrors;
         }
-
-        public SyncPropertyValidator<TProp> SetValidator(ISyncValidatable<TProp> otherValidatable)
-        {
-            if (otherValidatable == this)
-            {
-                throw new ValidatorSetupException("Detected circular reference");
-            }
-
-            // TODO: Change exception type?
-            OtherValidator = otherValidatable ?? throw new ArgumentNullException(nameof(otherValidatable));
-            Validators.Add(otherValidatable);
-
-            return this;
-        }
     }
 }
