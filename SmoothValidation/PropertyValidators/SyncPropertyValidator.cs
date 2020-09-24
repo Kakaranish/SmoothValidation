@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using SmoothValidation.RootValidators;
 using SmoothValidation.Types;
@@ -37,9 +38,15 @@ namespace SmoothValidation.PropertyValidators
                             ? Property.Name
                             : $"{Property.Name}.{propertyValidationError.PropertyName}";
                     }
+
+                    validationErrors.AddRange(validationErrorsForValidator);
+                    
+                    if (validationErrorsForValidator.Any() && validationTask.StopValidationAfterFailure)
+                    {
+                        break;
+                    }
                 }
 
-                validationErrors.AddRange(validationErrorsForValidator);
             }
 
             return validationErrors;

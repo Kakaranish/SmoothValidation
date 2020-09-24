@@ -60,6 +60,11 @@ namespace SmoothValidation.PropertyValidators
                 }
 
                 validationErrors.AddRange(validationErrorsForValidator);
+
+                if (validationErrorsForValidator.Any() && validationTask.StopValidationAfterFailure)
+                {
+                    break;
+                }
             }
 
             return validationErrors;

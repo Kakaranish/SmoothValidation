@@ -57,5 +57,16 @@ namespace SmoothValidation.PropertyValidators
             
             return PropertyValidator;
         }
+
+        public TPropertyValidator StopValidationAfterFailure()
+        {
+            var lastValidationTask = ValidationTasks.LastOrDefault();
+            if (lastValidationTask != null)
+            {
+                lastValidationTask.StopValidationAfterFailure = true;
+            }
+            
+            return PropertyValidator;
+        }
     }
 }
