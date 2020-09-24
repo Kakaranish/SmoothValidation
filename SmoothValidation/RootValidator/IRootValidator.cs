@@ -1,4 +1,4 @@
-﻿namespace SmoothValidation
+﻿namespace SmoothValidation.RootValidator
 {
     public interface IRootValidator
     {

@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using SmoothValidation.PropertyValidator;
 using SmoothValidation.Types;
 
-namespace SmoothValidation
+namespace SmoothValidation.RootValidator
 {
-    public interface IValidator
+    public interface ISyncValidatable : IValidatable
     {
         IList<PropertyValidationError> Validate(object obj);
     }
 
-    public interface IValidatable<in TObject> : IValidator
+    public interface ISyncValidatable<in TObject> : ISyncValidatable
     {
         IList<PropertyValidationError> Validate(TObject obj);
     }

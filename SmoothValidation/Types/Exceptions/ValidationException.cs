@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SmoothValidation.Types
+namespace SmoothValidation.Types.Exceptions
 {
     public class ValidationException : Exception
     {

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using SmoothValidation.RootValidator;
 using SmoothValidation.Types;
 
-namespace SmoothValidation
+namespace SmoothValidation.ValidationRule
 {
-    public class ValidationRule<TProp> : IValidatable<TProp>
+    public class SyncValidationRule<TProp> : ValidationRuleBase, ISyncValidatable<TProp>
     {
         private readonly Predicate<TProp> _validationPredicate;
-        private readonly string _errorMessage;
 
-        public ValidationRule(Predicate<TProp> validationPredicate, string errorMessage)
+        public SyncValidationRule(Predicate<TProp> validationPredicate, string errorMessage, string errorCode = null) : 
+            base(errorMessage, errorCode)
         {
             _validationPredicate = validationPredicate ?? throw new ArgumentNullException(nameof(validationPredicate));
-            _errorMessage = errorMessage ?? throw new ArgumentNullException(nameof(errorMessage));
         }
 
         public IList<PropertyValidationError> Validate(object obj)
@@ -30,9 +30,9 @@ namespace SmoothValidation
                 {
                     new PropertyValidationError
                     {
-                        // TODO: Add error code
                         PropertyName = string.Empty,
-                        ErrorMessage = _errorMessage,
+                        ErrorMessage = ErrorMessage,
+                        ErrorCode = ErrorCode,
                         ProvidedValue = obj
                     }
                 };
