@@ -9,8 +9,8 @@ namespace SmoothValidation.ValidationRules
     {
         private readonly Predicate<TProp> _validationPredicate;
 
-        public SyncValidationRule(Predicate<TProp> validationPredicate, string errorMessage, string errorCode = null) : 
-            base(errorMessage, errorCode)
+        public SyncValidationRule(Predicate<TProp> validationPredicate, string errorMessage, string errorCode = null) 
+            : base(errorMessage, errorCode)
         {
             _validationPredicate = validationPredicate ?? throw new ArgumentNullException(nameof(validationPredicate));
         }
