@@ -12,11 +12,11 @@ namespace SmoothValidation.Types
             MemberTypes.Property
         };
 
+        public MemberInfo MemberInfo { get; }
+
         public bool IsField { get; }
         public bool IsProperty => !IsField;
         public string Name => MemberInfo.Name;
-
-        public MemberInfo MemberInfo { get; }
 
         public Property(MemberInfo memberInfo)
         {
