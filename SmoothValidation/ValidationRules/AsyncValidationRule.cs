@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SmoothValidation.Types;
+using SmoothValidation.ValidatorsAbstraction;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SmoothValidation.Types;
-using SmoothValidation.ValidatorsAbstraction;
 
 namespace SmoothValidation.ValidationRules
 {
@@ -27,16 +27,7 @@ namespace SmoothValidation.ValidationRules
 
             return isValid
                 ? new List<PropertyValidationError>()
-                : new List<PropertyValidationError>
-                {
-                    new PropertyValidationError
-                    {
-                        PropertyName = string.Empty,
-                        ErrorMessage = ErrorMessage,
-                        ErrorCode = ErrorCode,
-                        ProvidedValue = obj
-                    }
-                };
+                : new List<PropertyValidationError> { PropertyValidationError.CreateTransient(ErrorMessage, obj, ErrorCode) };
         }
     }
 }

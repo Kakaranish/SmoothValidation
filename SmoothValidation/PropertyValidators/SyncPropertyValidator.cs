@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using SmoothValidation.Types;
+using SmoothValidation.ValidatorsAbstraction;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SmoothValidation.RootValidators;
-using SmoothValidation.Types;
-using SmoothValidation.ValidatorsAbstraction;
 
 namespace SmoothValidation.PropertyValidators
 {
-    public class SyncPropertyValidator<TProp> : PropertyValidatorBase<SyncPropertyValidator<TProp>, TProp>, 
+    public class SyncPropertyValidator<TProp> : PropertyValidatorBase<SyncPropertyValidator<TProp>, TProp>,
         ISyncPropertyValidator, ISyncValidator<TProp>
     {
         public SyncPropertyValidator(PropertyInfo property) : base(property)
@@ -27,35 +26,19 @@ namespace SmoothValidation.PropertyValidators
 
             foreach (var validationTask in ValidationTasks)
             {
-                var validator = (ISyncValidator) validationTask.Validator;
-
+                var validator = (ISyncValidator)validationTask.Validator;
                 var validationErrorsForValidator = validator.Validate(obj);
-                
-                    foreach (var propertyValidationError in validationErrorsForValidator)
-                    {
-                        if (!(validator is IRootValidator))
-                        {
-                            propertyValidationError.PropertyName = propertyValidationError.PropertyName == string.Empty
-                                ? Property.Name
-                                : $"{Property.Name}.{propertyValidationError.PropertyName}";
-                        }
 
-                        if (!string.IsNullOrWhiteSpace(OverridenPropertyDisplayName))
-                        {
-                            var notChangedPropertyNamePart = string.Join(".", propertyValidationError.PropertyName.Split('.').Skip(1));
-                            propertyValidationError.PropertyName = notChangedPropertyNamePart != string.Empty
-                                ? $"{OverridenPropertyDisplayName}.{notChangedPropertyNamePart}"
-                                : OverridenPropertyDisplayName;
-                        }
-                        propertyValidationError.ApplyTransformation(validationTask.PropertyValidationErrorTransformation);
-                    }
+                foreach (var propertyValidationError in validationErrorsForValidator)
+                {
+                    ProcessPropertyValidationError(propertyValidationError, validationTask);
+                }
+                validationErrors.AddRange(validationErrorsForValidator);
 
-                    validationErrors.AddRange(validationErrorsForValidator);
-                    
-                    if (validationErrorsForValidator.Any() && validationTask.StopValidationAfterFailure)
-                    {
-                        break;
-                    }
+                if(validationErrorsForValidator.Any() && validationTask.StopValidationAfterFailure)
+                {
+                    break;
+                }
             }
 
             return validationErrors;

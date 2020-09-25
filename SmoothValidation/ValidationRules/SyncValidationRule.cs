@@ -26,16 +26,7 @@ namespace SmoothValidation.ValidationRules
             
             return isValid
                 ? new List<PropertyValidationError>()
-                : new List<PropertyValidationError>
-                {
-                    new PropertyValidationError
-                    {
-                        PropertyName = string.Empty,
-                        ErrorMessage = ErrorMessage,
-                        ErrorCode = ErrorCode,
-                        ProvidedValue = obj
-                    }
-                };
+                : new List<PropertyValidationError> { PropertyValidationError.CreateTransient(ErrorMessage, obj, ErrorCode)};
         }
     }
 }

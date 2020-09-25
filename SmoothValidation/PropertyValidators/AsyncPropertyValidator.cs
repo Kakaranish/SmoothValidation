@@ -1,13 +1,12 @@
-﻿using System;
+﻿using SmoothValidation.Types;
+using SmoothValidation.Types.Exceptions;
+using SmoothValidation.ValidationRules;
+using SmoothValidation.ValidatorsAbstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using SmoothValidation.RootValidators;
-using SmoothValidation.Types;
-using SmoothValidation.Types.Exceptions;
-using SmoothValidation.ValidationRules;
-using SmoothValidation.ValidatorsAbstraction;
 
 namespace SmoothValidation.PropertyValidators
 {
@@ -22,7 +21,7 @@ namespace SmoothValidation.PropertyValidators
 
         public async Task<IList<PropertyValidationError>> Validate(object obj)
         {
-            return await Validate((TProp) obj);
+            return await Validate((TProp)obj);
         }
 
         public async Task<IList<PropertyValidationError>> Validate(TProp obj)
@@ -32,31 +31,23 @@ namespace SmoothValidation.PropertyValidators
             foreach (var validationTask in ValidationTasks)
             {
                 IList<PropertyValidationError> validationErrorsForValidator;
-                IValidator validator;
 
                 if (validationTask.Validator is ISyncValidator syncValidator)
                 {
-                    validator = syncValidator;
                     validationErrorsForValidator = syncValidator.Validate(obj);
                 }
                 else if (validationTask.Validator is IAsyncValidator asyncValidator)
                 {
-                    validator = asyncValidator;
                     validationErrorsForValidator = await asyncValidator.Validate(obj);
                 }
                 else
                 {
                     throw new InvalidOperationException(); // TODO: Add exception info
                 }
-                
-                if (!(validator is IRootValidator))
+
+                foreach (var propertyValidationError in validationErrorsForValidator)
                 {
-                    foreach (var propertyValidationError in validationErrorsForValidator)
-                    {
-                        propertyValidationError.PropertyName = propertyValidationError.PropertyName == string.Empty
-                            ? Property.Name
-                            : $"{Property.Name}.{propertyValidationError.PropertyName}";
-                    }
+                    ProcessPropertyValidationError(propertyValidationError, validationTask);
                 }
 
                 validationErrors.AddRange(validationErrorsForValidator);

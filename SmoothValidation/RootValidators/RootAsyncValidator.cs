@@ -37,13 +37,6 @@ namespace SmoothValidation.RootValidators
                     throw new InvalidOperationException(); // TODO: Add exception info
                 }
 
-                foreach (var propertyValidationError in validationErrorsForValidator)
-                {
-                    if (propertyValidationError.PropertyName != propertyValidatorKvp.Key)
-                    {
-                        propertyValidationError.PropertyName = $"{propertyValidatorKvp.Key}.{propertyValidationError.PropertyName}";
-                    }
-                }
                 validationErrors.AddRange(validationErrorsForValidator);
             }
 

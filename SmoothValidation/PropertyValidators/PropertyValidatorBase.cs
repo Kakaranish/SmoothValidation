@@ -12,16 +12,17 @@ namespace SmoothValidation.PropertyValidators
     public abstract class PropertyValidatorBase<TPropertyValidator, TProp>
     {
         protected readonly List<ValidationTask> ValidationTasks = new List<ValidationTask>();
-        protected string OverridenPropertyDisplayName { get; private set; }
-
+        protected string PropertyName { get; private set; }
+        
         protected PropertyValidatorBase(PropertyInfo property)
         {
             Property = property ?? throw new ArgumentNullException(nameof(property));
+            PropertyName = property.Name;
         }
 
         protected abstract TPropertyValidator PropertyValidator { get; }
         public PropertyInfo Property { get; }
-
+        
         public TPropertyValidator AddRule(Predicate<TProp> predicate, string errorMessage, string errorCode = null)
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -73,7 +74,7 @@ namespace SmoothValidation.PropertyValidators
 
         public TPropertyValidator SetPropertyDisplayName(string propertyName)
         {
-            OverridenPropertyDisplayName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
+            PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
 
             return PropertyValidator;
         }
@@ -87,6 +88,20 @@ namespace SmoothValidation.PropertyValidators
             }
 
             return PropertyValidator;
+        }
+
+        protected void ProcessPropertyValidationError(PropertyValidationError propertyValidationError, ValidationTask validationTask)
+        {
+            if (propertyValidationError.IsTransient)
+            {
+                propertyValidationError.SetPropertyName(PropertyName);
+            }
+            else
+            {
+                propertyValidationError.PrependParentPropertyName(PropertyName);
+            }
+
+            propertyValidationError.ApplyTransformation(validationTask.PropertyValidationErrorTransformation);
         }
     }
 }
