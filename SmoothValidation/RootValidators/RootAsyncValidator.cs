@@ -45,7 +45,7 @@ namespace SmoothValidation.RootValidators
 
         public AsyncPropertyValidator<TProp> SetupAsync<TProp>(Expression<Func<TObject, TProp>> expression)
         {
-            var propertyInfo = ExtractProperty(expression);
+            var propertyInfo = PropertyExtractor.Extract(expression);
 
             if (PropertyValidators.TryGetValue(propertyInfo.Name, out var propertyValidator))
             {
