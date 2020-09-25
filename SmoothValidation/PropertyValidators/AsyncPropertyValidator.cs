@@ -17,7 +17,7 @@ namespace SmoothValidation.PropertyValidators
         {
         }
 
-        protected override AsyncPropertyValidator<TProp> PropertyValidator => this;
+        public override AsyncPropertyValidator<TProp> PropertyValidator => this;
 
         public async Task<IList<PropertyValidationError>> Validate(object obj)
         {

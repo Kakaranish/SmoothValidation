@@ -20,7 +20,7 @@ namespace SmoothValidation.PropertyValidators
             PropertyName = property.Name;
         }
 
-        protected abstract TPropertyValidator PropertyValidator { get; }
+        public abstract TPropertyValidator PropertyValidator { get; }
         public PropertyInfo Property { get; }
         
         public TPropertyValidator AddRule(Predicate<TProp> predicate, string errorMessage, string errorCode = null)

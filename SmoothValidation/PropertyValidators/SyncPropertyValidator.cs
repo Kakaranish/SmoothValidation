@@ -13,7 +13,7 @@ namespace SmoothValidation.PropertyValidators
         {
         }
 
-        protected override SyncPropertyValidator<TProp> PropertyValidator => this;
+        public override SyncPropertyValidator<TProp> PropertyValidator => this;
 
         public IList<PropertyValidationError> Validate(object obj)
         {
