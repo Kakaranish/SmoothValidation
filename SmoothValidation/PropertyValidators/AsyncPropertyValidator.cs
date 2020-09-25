@@ -13,7 +13,7 @@ namespace SmoothValidation.PropertyValidators
     public class AsyncPropertyValidator<TProp> : PropertyValidatorBase<AsyncPropertyValidator<TProp>, TProp>,
         IAsyncPropertyValidator, IAsyncValidator<TProp>
     {
-        public AsyncPropertyValidator(PropertyInfo property) : base(property)
+        public AsyncPropertyValidator(MemberInfo memberInfo) : base(memberInfo)
         {
         }
 

@@ -2,10 +2,10 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace SmoothValidation.RootValidators
+namespace SmoothValidation.Utils
 {
     public interface IPropertyExtractor<TObject>
     {
-        PropertyInfo Extract<TProp>(Expression<Func<TObject, TProp>> expression);
+        MemberInfo Extract<TProp>(Expression<Func<TObject, TProp>> expression);
     }
 }

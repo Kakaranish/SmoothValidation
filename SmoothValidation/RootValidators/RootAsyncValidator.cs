@@ -45,9 +45,9 @@ namespace SmoothValidation.RootValidators
 
         public AsyncPropertyValidator<TProp> SetupAsync<TProp>(Expression<Func<TObject, TProp>> expression)
         {
-            var propertyInfo = PropertyExtractor.Extract(expression);
+            var memberInfo = PropertyExtractor.Extract(expression);
 
-            if (PropertyValidators.TryGetValue(propertyInfo.Name, out var propertyValidator))
+            if (PropertyValidators.TryGetValue(memberInfo.Name, out var propertyValidator))
             {
                 if (propertyValidator is AsyncPropertyValidator<TProp> asyncPropertyValidator)
                 {
@@ -57,8 +57,8 @@ namespace SmoothValidation.RootValidators
                 throw new InvalidOperationException("Property already has assigned synchronous validator");
             }
 
-            var newPropertyValidator = new AsyncPropertyValidator<TProp>(propertyInfo);
-            PropertyValidators.Add(propertyInfo.Name, newPropertyValidator);
+            var newPropertyValidator = new AsyncPropertyValidator<TProp>(memberInfo);
+            PropertyValidators.Add(memberInfo.Name, newPropertyValidator);
 
             return newPropertyValidator;
         }

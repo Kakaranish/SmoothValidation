@@ -9,7 +9,7 @@ namespace SmoothValidation.PropertyValidators
     public class SyncPropertyValidator<TProp> : PropertyValidatorBase<SyncPropertyValidator<TProp>, TProp>,
         ISyncPropertyValidator, ISyncValidator<TProp>
     {
-        public SyncPropertyValidator(PropertyInfo property) : base(property)
+        public SyncPropertyValidator(MemberInfo memberInfo) : base(memberInfo)
         {
         }
 

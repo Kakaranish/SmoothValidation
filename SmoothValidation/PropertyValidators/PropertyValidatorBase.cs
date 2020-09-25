@@ -14,14 +14,14 @@ namespace SmoothValidation.PropertyValidators
         protected readonly List<ValidationTask> ValidationTasks = new List<ValidationTask>();
         protected string PropertyName { get; private set; }
         
-        protected PropertyValidatorBase(PropertyInfo property)
+        protected PropertyValidatorBase(MemberInfo memberInfo)
         {
-            Property = property ?? throw new ArgumentNullException(nameof(property));
-            PropertyName = property.Name;
+            Property = new Property(memberInfo);
+            PropertyName = Property.Name;
         }
 
         public abstract TPropertyValidator PropertyValidator { get; }
-        public PropertyInfo Property { get; }
+        public Property Property { get; }
         
         public TPropertyValidator AddRule(Predicate<TProp> predicate, string errorMessage, string errorCode = null)
         {
