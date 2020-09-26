@@ -4,6 +4,7 @@ using SmoothValidation.ValidatorsAbstraction;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using SmoothValidation.Utils;
 
 namespace SmoothValidation.PropertyValidators
 {
@@ -16,14 +17,11 @@ namespace SmoothValidation.PropertyValidators
 
         public override SyncPropertyValidator<TProp> PropertyValidator => this;
 
+
+
         public IList<PropertyValidationError> Validate(object obj)
         {
-            if (!(obj is TProp toValidate))
-            {
-                throw new ArgumentException($"'{nameof(obj)}' is not {typeof(TProp).Name} type");
-            }
-
-            return Validate(toValidate);
+            return Validate(Common.Cast<TProp>(obj));
         }
 
         public IList<PropertyValidationError> Validate(TProp obj)

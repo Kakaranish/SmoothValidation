@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using SmoothValidation.PropertyValidators;
 using SmoothValidation.Types;
+using SmoothValidation.Utils;
 using SmoothValidation.ValidatorsAbstraction;
 
 namespace SmoothValidation.RootValidators
 {
-    public abstract class RootSyncValidator<TObject> : ValidatorBase<TObject>, IRootValidator, ISyncValidator<TObject>
+    public abstract class RootSyncValidator<TObject> : RootValidatorBase<TObject>, IRootValidator, ISyncValidator<TObject>
     {
         public IList<PropertyValidationError> Validate(object obj)
         {
-            return Validate((TObject)obj);
+            return Validate(Common.Cast<TObject>(obj));
         }
 
         public IList<PropertyValidationError> Validate(TObject obj)

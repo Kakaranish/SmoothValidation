@@ -1,22 +1,18 @@
-﻿using SmoothValidation.PropertyValidators;
-using SmoothValidation.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using SmoothValidation.PropertyValidators;
+using SmoothValidation.Utils;
 
-namespace SmoothValidation.ValidatorsAbstraction
+namespace SmoothValidation.RootValidators
 {
-    public abstract class ValidatorBase<TObject>
+    public abstract class RootValidatorBase<TObject>
     {
-        protected readonly IDictionary<string, IPropertyValidator> PropertyValidators =
+        protected readonly Dictionary<string, IPropertyValidator> PropertyValidators =
             new Dictionary<string, IPropertyValidator>();
+        protected IPropertyExtractor<TObject> PropertyExtractor = new PropertyExtractor<TObject>();
 
-        protected IPropertyExtractor<TObject> PropertyExtractor;
-
-        protected ValidatorBase()
-        {
-            PropertyExtractor = new PropertyExtractor<TObject>();
-        }
+        internal IReadOnlyDictionary<string, IPropertyValidator> PropertyValidatorsAsReadonly => PropertyValidators;
 
         public SyncPropertyValidator<TProp> Setup<TProp>(Expression<Func<TObject, TProp>> expression)
         {

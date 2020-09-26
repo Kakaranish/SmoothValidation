@@ -2,7 +2,7 @@
 
 namespace SmoothValidation.InlineValidators
 {
-    public class InlineValidator<TObject> : RootSyncValidator<TObject>
+    public sealed class InlineValidator<TObject> : RootSyncValidator<TObject>
     {
     }
 }

@@ -4,15 +4,16 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using SmoothValidation.PropertyValidators;
 using SmoothValidation.Types;
+using SmoothValidation.Utils;
 using SmoothValidation.ValidatorsAbstraction;
 
 namespace SmoothValidation.RootValidators
 {
-    public abstract class RootAsyncValidator<TObject> : ValidatorBase<TObject>, IRootValidator, IAsyncValidator<TObject>
+    public abstract class RootAsyncValidator<TObject> : RootValidatorBase<TObject>, IRootValidator, IAsyncValidator<TObject>
     {
         public async Task<IList<PropertyValidationError>> Validate(object obj)
         {
-            return await Validate((TObject)obj);
+            return await Validate(Common.Cast<TObject>(obj));
         }
 
         public async Task<IList<PropertyValidationError>> Validate(TObject obj)
@@ -27,14 +28,11 @@ namespace SmoothValidation.RootValidators
                     var propertyValue = syncPropertyValidator.Property.GetValue(obj);
                     validationErrorsForValidator = syncPropertyValidator.Validate(propertyValue);
                 }
-                else if (propertyValidatorKvp.Value is IAsyncPropertyValidator asyncPropertyValidator)
-                {
-                    var propertyValue = asyncPropertyValidator.Property.GetValue(obj);
-                    validationErrorsForValidator = await asyncPropertyValidator.Validate(propertyValue);
-                }
                 else
                 {
-                    throw new InvalidOperationException(); // TODO: Add exception info
+                    var asyncPropertyValidator = (IAsyncPropertyValidator) propertyValidatorKvp.Value;
+                    var propertyValue = asyncPropertyValidator.Property.GetValue(obj);
+                    validationErrorsForValidator = await asyncPropertyValidator.Validate(propertyValue);
                 }
 
                 validationErrors.AddRange(validationErrorsForValidator);

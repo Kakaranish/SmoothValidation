@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using SmoothValidation.Utils;
 
 namespace SmoothValidation.PropertyValidators
 {
@@ -20,12 +21,7 @@ namespace SmoothValidation.PropertyValidators
 
         public async Task<IList<PropertyValidationError>> Validate(object obj)
         {
-            if (!(obj is TProp toValidate))
-            {
-                throw new ArgumentException($"'{nameof(obj)}' is not {typeof(TProp).Name} type");
-            }
-
-            return await Validate(toValidate);
+            return await Validate(Common.Cast<TProp>(obj));
         }
 
         public async Task<IList<PropertyValidationError>> Validate(TProp obj)
