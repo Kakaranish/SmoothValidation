@@ -21,7 +21,7 @@ namespace SmoothValidation.ValidationExtensions
             this PropertyValidatorBase<TBuilder, TNumber> propertyValidator, TNumber value)
             where TNumber : IComparable<TNumber>
         {
-            var message = $"Value must be greater than or equal to{value}";
+            var message = $"Value must be greater than or equal to {value}";
             const string errorCode = "NUM_LESS_THAN";
 
             propertyValidator.AddRule(x => x.CompareTo(value) >= 0, message, errorCode);
@@ -45,7 +45,7 @@ namespace SmoothValidation.ValidationExtensions
             this PropertyValidatorBase<TBuilder, TNumber> propertyValidator, TNumber value)
             where TNumber : IComparable<TNumber>
         {
-            var message = $"Value must be less than or equal to{value}";
+            var message = $"Value must be less than or equal to {value}";
             const string errorCode = "NUM_GREATER_THAN";
 
             propertyValidator.AddRule(x => x.CompareTo(value) <= 0, message, errorCode);
