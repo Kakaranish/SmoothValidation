@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SmoothValidation.PropertyValidators
 {
-    public class AsyncPropertyValidator<TProp> : PropertyValidatorBase<AsyncPropertyValidator<TProp>, TProp>,
+    public sealed class AsyncPropertyValidator<TProp> : PropertyValidatorBase<AsyncPropertyValidator<TProp>, TProp>,
         IAsyncPropertyValidator, IAsyncValidator<TProp>
     {
         public AsyncPropertyValidator(MemberInfo memberInfo) : base(memberInfo)
@@ -20,7 +20,12 @@ namespace SmoothValidation.PropertyValidators
 
         public async Task<IList<PropertyValidationError>> Validate(object obj)
         {
-            return await Validate((TProp)obj);
+            if (!(obj is TProp toValidate))
+            {
+                throw new ArgumentException($"'{nameof(obj)}' is not {typeof(TProp).Name} type");
+            }
+
+            return await Validate(toValidate);
         }
 
         public async Task<IList<PropertyValidationError>> Validate(TProp obj)
@@ -29,20 +34,9 @@ namespace SmoothValidation.PropertyValidators
 
             foreach (var validationTask in ValidationTasks)
             {
-                IList<PropertyValidationError> validationErrorsForValidator;
-
-                if (validationTask.Validator is ISyncValidator syncValidator)
-                {
-                    validationErrorsForValidator = syncValidator.Validate(obj);
-                }
-                else if (validationTask.Validator is IAsyncValidator asyncValidator)
-                {
-                    validationErrorsForValidator = await asyncValidator.Validate(obj);
-                }
-                else
-                {
-                    throw new InvalidOperationException(); // TODO: Add exception info
-                }
+                var validationErrorsForValidator = validationTask.Validator is ISyncValidator syncValidator
+                    ? syncValidator.Validate(obj)
+                    : await ((IAsyncValidator) validationTask.Validator).Validate(obj);
 
                 foreach (var propertyValidationError in validationErrorsForValidator)
                 {
@@ -60,6 +54,14 @@ namespace SmoothValidation.PropertyValidators
             return validationErrors;
         }
 
+        public AsyncPropertyValidator<TProp> AddRule(Func<TProp, Task<bool>> predicate, string errorMessage, string errorCode = null)
+        {
+            var validationRule = new AsyncValidationRule<TProp>(predicate, errorMessage, errorCode);
+            ValidationTasks.Add(new ValidationTask(validationRule, false));
+
+            return this;
+        }
+
         public AsyncPropertyValidator<TProp> SetValidator(IAsyncValidator<TProp> otherValidator)
         {
             if (otherValidator == null) throw new ArgumentNullException(nameof(otherValidator));
@@ -70,18 +72,7 @@ namespace SmoothValidation.PropertyValidators
                 throw new InvalidOperationException("There is already set other validator");
             }
 
-            ValidationTasks.Add(new ValidationTask(otherValidator));
-
-            return this;
-        }
-
-        public AsyncPropertyValidator<TProp> AddRule(Func<TProp, Task<bool>> predicate, string errorMessage, string errorCode = null)
-        {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-            if (errorMessage == null) throw new ArgumentNullException(nameof(errorMessage));
-
-            var validationRule = new AsyncValidationRule<TProp>(predicate, errorMessage, errorCode);
-            ValidationTasks.Add(new ValidationTask(validationRule));
+            ValidationTasks.Add(new ValidationTask(otherValidator, true));
 
             return this;
         }

@@ -1,4 +1,5 @@
-﻿using SmoothValidation.Types;
+﻿using System;
+using SmoothValidation.Types;
 using SmoothValidation.ValidatorsAbstraction;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Reflection;
 
 namespace SmoothValidation.PropertyValidators
 {
-    public class SyncPropertyValidator<TProp> : PropertyValidatorBase<SyncPropertyValidator<TProp>, TProp>,
+    public sealed class SyncPropertyValidator<TProp> : PropertyValidatorBase<SyncPropertyValidator<TProp>, TProp>,
         ISyncPropertyValidator, ISyncValidator<TProp>
     {
         public SyncPropertyValidator(MemberInfo memberInfo) : base(memberInfo)
@@ -17,7 +18,12 @@ namespace SmoothValidation.PropertyValidators
 
         public IList<PropertyValidationError> Validate(object obj)
         {
-            return Validate((TProp)obj);
+            if (!(obj is TProp toValidate))
+            {
+                throw new ArgumentException($"'{nameof(obj)}' is not {typeof(TProp).Name} type");
+            }
+
+            return Validate(toValidate);
         }
 
         public IList<PropertyValidationError> Validate(TProp obj)

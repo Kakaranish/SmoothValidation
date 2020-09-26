@@ -21,14 +21,12 @@ namespace SmoothValidation.PropertyValidators
 
         public abstract TPropertyValidator PropertyValidator { get; }
         public Property Property { get; }
+        internal IReadOnlyList<ValidationTask> ValidationTasksAsReadonly => ValidationTasks.AsReadOnly();
         
         public TPropertyValidator AddRule(Predicate<TProp> predicate, string errorMessage, string errorCode = null)
         {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-            if (errorMessage == null) throw new ArgumentNullException(nameof(errorMessage));
-
             var validationRule = new SyncValidationRule<TProp>(predicate, errorMessage, errorCode);
-            ValidationTasks.Add(new ValidationTask(validationRule));
+            ValidationTasks.Add(new ValidationTask(validationRule, false));
             
             return PropertyValidator;
         }
@@ -43,7 +41,7 @@ namespace SmoothValidation.PropertyValidators
                 throw new InvalidOperationException("There is already set other validator");
             }
 
-            ValidationTasks.Add(new ValidationTask(otherValidator));
+            ValidationTasks.Add(new ValidationTask(otherValidator, true));
             
             return PropertyValidator;
         }

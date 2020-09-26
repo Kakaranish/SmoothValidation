@@ -110,8 +110,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             // Arrange:
             var memberInfo = CreateTestMemberInfo();
             var validator = new PropertyValidatorBaseTestImpl<string>(memberInfo);
-            var validationTask = new ValidationTask(Mock.Of<IValidator>());
-            validationTask.IsOtherValidator = true;
+            var validationTask = new ValidationTask(Mock.Of<IValidator>(), true);
             validator.AddValidationTasksTestMethod(new List<ValidationTask> {validationTask});
             
             // Act:
@@ -158,8 +157,8 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             var validator = new PropertyValidatorBaseTestImpl<string>(memberInfo);
             var validationTasks = new List<ValidationTask>
             {
-                new ValidationTask(Mock.Of<IValidator>()),
-                new ValidationTask(Mock.Of<IValidator>())
+                new ValidationTask(Mock.Of<IValidator>(), false),
+                new ValidationTask(Mock.Of<IValidator>(), false)
             };
             validator.AddValidationTasksTestMethod(validationTasks);
 
@@ -208,8 +207,8 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             var validator = new PropertyValidatorBaseTestImpl<string>(memberInfo);
             var validationTasks = new List<ValidationTask>
             {
-                new ValidationTask(Mock.Of<IValidator>()),
-                new ValidationTask(Mock.Of<IValidator>())
+                new ValidationTask(Mock.Of<IValidator>(), false),
+                new ValidationTask(Mock.Of<IValidator>(), false)
             };
             validator.AddValidationTasksTestMethod(validationTasks);
             const string message = "SOME MESSAGE";
@@ -293,8 +292,8 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             var validator = new PropertyValidatorBaseTestImpl<string>(memberInfo);
             var validationTasks = new List<ValidationTask>
             {
-                new ValidationTask(Mock.Of<IValidator>()),
-                new ValidationTask(Mock.Of<IValidator>())
+                new ValidationTask(Mock.Of<IValidator>(), false),
+                new ValidationTask(Mock.Of<IValidator>(), false)
             };
             validator.AddValidationTasksTestMethod(validationTasks);
             const string code = "SOME CODE";
