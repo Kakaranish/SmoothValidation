@@ -9,7 +9,7 @@ namespace SmoothValidation.Types
         public bool IsOtherValidator { get; set; } = false;
         public bool StopValidationAfterFailure { get; set; }
 
-        public PropertyValidationErrorTransformation PropertyValidationErrorTransformation { get; set; } 
+        public PropertyValidationErrorTransformation ErrorTransformation { get; set; } 
             = new PropertyValidationErrorTransformation();
 
         public ValidationTask(IValidator validator)

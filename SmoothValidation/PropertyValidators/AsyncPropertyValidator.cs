@@ -1,5 +1,4 @@
 ﻿using SmoothValidation.Types;
-using SmoothValidation.Types.Exceptions;
 using SmoothValidation.ValidationRules;
 using SmoothValidation.ValidatorsAbstraction;
 using System;
@@ -47,7 +46,7 @@ namespace SmoothValidation.PropertyValidators
 
                 foreach (var propertyValidationError in validationErrorsForValidator)
                 {
-                    ProcessPropertyValidationError(propertyValidationError, validationTask);
+                    ProcessPropertyValidationError(propertyValidationError, validationTask.ErrorTransformation);
                 }
 
                 validationErrors.AddRange(validationErrorsForValidator);
@@ -64,11 +63,11 @@ namespace SmoothValidation.PropertyValidators
         public AsyncPropertyValidator<TProp> SetValidator(IAsyncValidator<TProp> otherValidator)
         {
             if (otherValidator == null) throw new ArgumentNullException(nameof(otherValidator));
-            if (otherValidator == this) throw new ValidatorSetupException("Detected circular reference");
+            if (otherValidator == this) throw new ArgumentException("Detected circular reference");
 
             if (ValidationTasks.Any(task => task.IsOtherValidator))
             {
-                throw new ValidatorSetupException("There is already set other validator");
+                throw new InvalidOperationException("There is already set other validator");
             }
 
             ValidationTasks.Add(new ValidationTask(otherValidator));

@@ -31,7 +31,7 @@ namespace SmoothValidation.PropertyValidators
 
                 foreach (var propertyValidationError in validationErrorsForValidator)
                 {
-                    ProcessPropertyValidationError(propertyValidationError, validationTask);
+                    ProcessPropertyValidationError(propertyValidationError, validationTask.ErrorTransformation);
                 }
                 validationErrors.AddRange(validationErrorsForValidator);
 

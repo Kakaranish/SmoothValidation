@@ -1,5 +1,4 @@
-﻿using SmoothValidation.Types.Exceptions;
-using SmoothValidation.ValidationRules;
+﻿using SmoothValidation.ValidationRules;
 using SmoothValidation.ValidatorsAbstraction;
 using System;
 using System.Collections.Generic;
@@ -12,12 +11,12 @@ namespace SmoothValidation.PropertyValidators
     public abstract class PropertyValidatorBase<TPropertyValidator, TProp>
     {
         protected readonly List<ValidationTask> ValidationTasks = new List<ValidationTask>();
-        protected string PropertyName { get; private set; }
+        protected string PropertyDisplayName { get; private set; }
         
         protected PropertyValidatorBase(MemberInfo memberInfo)
         {
             Property = new Property(memberInfo);
-            PropertyName = Property.Name;
+            PropertyDisplayName = Property.Name;
         }
 
         public abstract TPropertyValidator PropertyValidator { get; }
@@ -37,11 +36,11 @@ namespace SmoothValidation.PropertyValidators
         public TPropertyValidator SetValidator(ISyncValidator<TProp> otherValidator)
         {
             if (otherValidator == null) throw new ArgumentNullException(nameof(otherValidator));
-            if (otherValidator == this) throw new ValidatorSetupException("Detected circular reference");
+            if (otherValidator == this) throw new ArgumentException("Detected circular reference");
 
             if(ValidationTasks.Any(task => task.IsOtherValidator))
             {
-                throw new ValidatorSetupException("There is already set other validator");
+                throw new InvalidOperationException("There is already set other validator");
             }
 
             ValidationTasks.Add(new ValidationTask(otherValidator));
@@ -66,15 +65,8 @@ namespace SmoothValidation.PropertyValidators
             var lastValidationTask = ValidationTasks.LastOrDefault();
             if (lastValidationTask != null)
             {
-                lastValidationTask.PropertyValidationErrorTransformation.OverridenMessage = message;
+                lastValidationTask.ErrorTransformation.OverridenMessage = message;
             }
-
-            return PropertyValidator;
-        }
-
-        public TPropertyValidator SetPropertyDisplayName(string propertyName)
-        {
-            PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
 
             return PropertyValidator;
         }
@@ -84,24 +76,36 @@ namespace SmoothValidation.PropertyValidators
             var lastValidationTask = ValidationTasks.LastOrDefault();
             if (lastValidationTask != null)
             {
-                lastValidationTask.PropertyValidationErrorTransformation.OverriddenCode = code;
+                lastValidationTask.ErrorTransformation.OverriddenCode = code;
             }
 
             return PropertyValidator;
         }
 
-        protected void ProcessPropertyValidationError(PropertyValidationError propertyValidationError, ValidationTask validationTask)
+        public TPropertyValidator SetPropertyDisplayName(string propertyDisplayName)
+        {
+            if (string.IsNullOrWhiteSpace(propertyDisplayName))
+            {
+                throw new ArgumentException($"'{nameof(propertyDisplayName)}' cannot be null or whitespace");
+            }
+
+            PropertyDisplayName = propertyDisplayName;
+
+            return PropertyValidator;
+        }
+
+        protected void ProcessPropertyValidationError(PropertyValidationError propertyValidationError, PropertyValidationErrorTransformation errorTransformation)
         {
             if (propertyValidationError.IsTransient)
             {
-                propertyValidationError.SetPropertyName(PropertyName);
+                propertyValidationError.SetPropertyName(PropertyDisplayName);
             }
             else
             {
-                propertyValidationError.PrependParentPropertyName(PropertyName);
+                propertyValidationError.PrependParentPropertyName(PropertyDisplayName);
             }
 
-            propertyValidationError.ApplyTransformation(validationTask.PropertyValidationErrorTransformation);
+            propertyValidationError.ApplyTransformation(errorTransformation);
         }
     }
 }
