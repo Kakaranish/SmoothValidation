@@ -66,6 +66,20 @@ namespace SmoothValidation.Tests.Unit.Types
         }
 
         [Test]
+        public void When_PropertyConcernsFieldOrPropertyButObjValueIsNull_Then_ExceptionIsThrown()
+        {
+            // Arrange:
+            TestClass someObj = null;
+            Expression<Func<TestClass, string>> expression = obj => obj.SomeField;
+            var memberExpression = expression.Body as MemberExpression;
+            var memberInfo = typeof(TestClass).GetField(memberExpression.Member.Name);
+
+            // Act & Assert:
+            var property = new Property(memberInfo);
+            Assert.Throws<ArgumentNullException>(() => property.GetValue(someObj));
+        }
+
+        [Test]
         public void When_PropertyConcernsField_Then_GetValueReturnsValueForThatField()
         {
             // Arrange:

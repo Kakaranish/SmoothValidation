@@ -32,6 +32,8 @@ namespace SmoothValidation.Types
 
         public object GetValue(object obj)
         {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+
             return IsField
                 ? ((FieldInfo) MemberInfo).GetValue(obj)
                 : ((PropertyInfo) MemberInfo).GetValue(obj);
