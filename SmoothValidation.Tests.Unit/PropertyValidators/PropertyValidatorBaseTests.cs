@@ -322,8 +322,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             {
             }
 
-            public override PropertyValidatorBaseTestImpl<TProp> PropertyValidator => this;
-
+            internal override PropertyValidatorBaseTestImpl<TProp> PropertyValidator => this;
 
             public IList<ValidationTask> GetValidationTasksTestMethod()
             {

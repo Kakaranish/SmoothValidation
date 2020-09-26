@@ -1,4 +1,4 @@
-﻿using SmoothValidation.ValidationRules;
+using SmoothValidation.ValidationRules;
 using SmoothValidation.ValidatorsAbstraction;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace SmoothValidation.PropertyValidators
             PropertyDisplayName = Property.Name;
         }
 
-        public abstract TPropertyValidator PropertyValidator { get; }
+        internal abstract TPropertyValidator PropertyValidator { get; }
         public Property Property { get; }
         internal IReadOnlyList<ValidationTask> ValidationTasksAsReadonly => ValidationTasks.AsReadOnly();
         
