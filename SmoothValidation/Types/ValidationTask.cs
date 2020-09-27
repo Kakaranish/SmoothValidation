@@ -5,13 +5,13 @@ namespace SmoothValidation.Types
 {
     public class ValidationTask
     {
-        public IValidator Validator { get; }
-        public bool IsOtherValidator { get; }
-        public bool StopValidationAfterFailure { get; set; }
+        internal IValidator Validator { get; }
+        internal bool IsOtherValidator { get; }
+        internal bool StopValidationAfterFailure { get; set; }
 
-        public ValidationErrorTransformation ErrorTransformation { get; set; }  = new ValidationErrorTransformation();
+        internal ValidationErrorTransformation ErrorTransformation { get; } = new ValidationErrorTransformation();
 
-        public ValidationTask(IValidator validator, bool isOtherValidator)
+        internal ValidationTask(IValidator validator, bool isOtherValidator)
         {
             Validator = validator ?? throw new ArgumentNullException(nameof(validator));
             IsOtherValidator = isOtherValidator;

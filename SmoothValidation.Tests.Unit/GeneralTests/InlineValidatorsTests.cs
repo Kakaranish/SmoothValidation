@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
 using SmoothValidation.InlineValidators;
+using System;
 
 namespace SmoothValidation.Tests.Unit.GeneralTests
 {
     [TestFixture]
-    public class NestedValidatorsTests
+    public class InlineValidatorsTests
     {
         [Test]
         public void SimpleInlineValidatorReturnsValidationError()
@@ -116,7 +114,7 @@ namespace SmoothValidation.Tests.Unit.GeneralTests
                 .WithCode("MUST_NOT_BE_NULL")
                 .StopValidationAfterFailure()
                 .AddRule(x => char.IsUpper(x[0]), "must start with uppercase", "STARTS_WITH_UPPER");
-            
+
             var addressValidator = new InlineValidator<Address>();
             addressValidator.Setup(x => x.Line1)
                 .SetPropertyDisplayName("CustomLine1")
@@ -183,7 +181,7 @@ namespace SmoothValidation.Tests.Unit.GeneralTests
 
             // Assert:
             validationErrors.Count.Should().Be(2);
-            
+
             validationErrors[0].ErrorMessage.Should().Be("not null");
             validationErrors[0].ErrorCode.Should().Be("MUST_NOT_BE_NULL");
             validationErrors[0].PropertyName.Should().Be("CustomAddress.CustomLine1.StreetName");
