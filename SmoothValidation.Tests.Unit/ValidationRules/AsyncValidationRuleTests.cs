@@ -18,7 +18,7 @@ namespace SmoothValidation.Tests.Unit.ValidationRules
         }
 
         [Test]
-        public async Task When_ObjectToValidateMatchPredicateRequirements_Then_EmptyListOfErrorsIsReturned()
+        public async Task When_ObjectToValidateMatchPredicateRequirements_Then_NoValidationErrorsAreReturned()
         {
             // Arrange:
             var errorMessage = "cannot be null";
@@ -43,7 +43,7 @@ namespace SmoothValidation.Tests.Unit.ValidationRules
         }
 
         [Test]
-        public async Task When_ObjectToValidateDoesNotMatchPredicateRequirements_Then_ListWithPropertyErrorIsReturned()
+        public async Task When_ObjectToValidateDoesNotMatchPredicateRequirements_Then_ValidationErrorIsReturned()
         {
             // Arrange:
             var errorMessage = "cannot be null";

@@ -6,11 +6,11 @@ namespace SmoothValidation.ValidatorsAbstraction
 {
     public interface IAsyncValidator : IValidator
     {
-        Task<IList<PropertyValidationError>> Validate(object obj);
+        Task<IList<ValidationError>> Validate(object obj);
     }
 
     public interface IAsyncValidator<in TObject> : IAsyncValidator
     {
-        Task<IList<PropertyValidationError>> Validate(TObject obj);
+        Task<IList<ValidationError>> Validate(TObject obj);
     }
 }

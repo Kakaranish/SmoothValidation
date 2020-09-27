@@ -65,7 +65,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
         }
 
         [Test]
-        public async Task For_ValidateObj_When_ValidObjectIsPassed_Then_ValidationPropertyErrorsAreReturned()
+        public async Task For_ValidateObj_When_ValidObjectIsPassed_Then_ValidationErrorsAreReturned()
         {
             // Arrange:
             var rootAsyncValidator = new RootAsyncValidatorImplementation();
@@ -79,7 +79,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
         }
 
         [Test]
-        public async Task For_Validate_When_RootValidatorHasSetUpSyncPropertyValidatorAndValidObjectIsPassed_Then_ValidationPropertyErrorsAreReturned()
+        public async Task For_Validate_When_RootValidatorHasSetUpSyncPropertyValidatorAndValidObjectIsPassed_Then_ValidationErrorsAreReturned()
         {
             // Arrange:
             var rootAsyncValidator = new RootAsyncValidatorImplementation();
@@ -104,7 +104,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
         }
 
         [Test]
-        public async Task For_Validate_When_RootValidatorHasSetUpAsyncPropertyValidatorAndValidObjectIsPassed_Then_ValidationPropertyErrorsAreReturned()
+        public async Task For_Validate_When_RootValidatorHasSetUpAsyncPropertyValidatorAndValidObjectIsPassed_Then_ValidationErrorsAreReturned()
         {
             // Arrange:
             var rootAsyncValidator = new RootAsyncValidatorImplementation();
@@ -134,7 +134,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
 
         [Test]
         public async Task
-            For_Validate_When_RootValidatorHasSetUpBothSyncAndAsyncPropertyValidatorAndValidObjectIsPassed_Then_ValidationPropertyErrorsAreReturned()
+            For_Validate_When_RootValidatorHasSetUpBothSyncAndAsyncPropertyValidatorAndValidObjectIsPassed_Then_ValidationErrorsAreReturned()
         {
             // Arrange:
             var rootAsyncValidator = new RootAsyncValidatorImplementation();

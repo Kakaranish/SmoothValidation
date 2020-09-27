@@ -43,7 +43,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         }
 
         [Test]
-        public void For_Validate_When_ObjectToValidateIsNotValidFor2Rules_Then_PropertyErrorsAreReturned()
+        public void For_Validate_When_ObjectToValidateIsNotValidFor2Rules_Then_ValidationErrorsAreReturned()
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();

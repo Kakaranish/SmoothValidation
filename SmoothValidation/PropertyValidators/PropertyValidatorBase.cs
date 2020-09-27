@@ -93,17 +93,18 @@ namespace SmoothValidation.PropertyValidators
         }
 
         protected void ProcessPropertyValidationError(PropertyValidationError propertyValidationError, PropertyValidationErrorTransformation errorTransformation)
+        protected void ProcessValidationError(ValidationError validationError, ValidationErrorTransformation errorTransformation)
         {
-            if (propertyValidationError.IsTransient)
+            if (validationError.IsTransient)
             {
-                propertyValidationError.SetPropertyName(PropertyDisplayName);
+                validationError.SetPropertyName(PropertyDisplayName);
             }
             else
             {
-                propertyValidationError.PrependParentPropertyName(PropertyDisplayName);
+                validationError.PrependParentPropertyName(PropertyDisplayName);
             }
 
-            propertyValidationError.ApplyTransformation(errorTransformation);
+            validationError.ApplyTransformation(errorTransformation);
         }
     }
 }

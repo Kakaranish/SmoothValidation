@@ -35,12 +35,12 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
 
             // Assert:
             validationErrors.Count.Should().Be(4);
-            foreach (var propertyValidationError in validationErrors)
+            foreach (var validationError in validationErrors)
             {
-                propertyValidationError.ErrorMessage.Should().Be("Value must be greater than 0");
-                propertyValidationError.ErrorCode.Should().Be("NUM_LESS_OR_THAN_OR_EQUAL_TO");
-                propertyValidationError.IsTransient.Should().BeFalse();
-                propertyValidationError.ProvidedValue.Should().Be(-0);
+                validationError.ErrorMessage.Should().Be("Value must be greater than 0");
+                validationError.ErrorCode.Should().Be("NUM_LESS_OR_THAN_OR_EQUAL_TO");
+                validationError.IsTransient.Should().BeFalse();
+                validationError.ProvidedValue.Should().Be(-0);
             }
         }
 
@@ -100,12 +100,12 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
 
             // Assert:
             validationErrors.Count.Should().Be(4);
-            foreach (var propertyValidationError in validationErrors)
+            foreach (var validationError in validationErrors)
             {
-                propertyValidationError.ErrorMessage.Should().Be("Value must be greater than or equal to 0");
-                propertyValidationError.ErrorCode.Should().Be("NUM_LESS_THAN");
-                propertyValidationError.IsTransient.Should().BeFalse();
-                propertyValidationError.ProvidedValue.Should().Be(-1);
+                validationError.ErrorMessage.Should().Be("Value must be greater than or equal to 0");
+                validationError.ErrorCode.Should().Be("NUM_LESS_THAN");
+                validationError.IsTransient.Should().BeFalse();
+                validationError.ProvidedValue.Should().Be(-1);
             }
         }
 
@@ -165,12 +165,12 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
 
             // Assert:
             validationErrors.Count.Should().Be(4);
-            foreach (var propertyValidationError in validationErrors)
+            foreach (var validationError in validationErrors)
             {
-                propertyValidationError.ErrorMessage.Should().Be("Value must be less than 0");
-                propertyValidationError.ErrorCode.Should().Be("NUM_GREATER_OR_THAN_OR_EQUAL_TO");
-                propertyValidationError.IsTransient.Should().BeFalse();
-                propertyValidationError.ProvidedValue.Should().Be(0);
+                validationError.ErrorMessage.Should().Be("Value must be less than 0");
+                validationError.ErrorCode.Should().Be("NUM_GREATER_OR_THAN_OR_EQUAL_TO");
+                validationError.IsTransient.Should().BeFalse();
+                validationError.ProvidedValue.Should().Be(0);
             }
         }
 
@@ -230,12 +230,12 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
 
             // Assert:
             validationErrors.Count.Should().Be(4);
-            foreach (var propertyValidationError in validationErrors)
+            foreach (var validationError in validationErrors)
             {
-                propertyValidationError.ErrorMessage.Should().Be("Value must be less than or equal to 0");
-                propertyValidationError.ErrorCode.Should().Be("NUM_GREATER_THAN");
-                propertyValidationError.IsTransient.Should().BeFalse();
-                propertyValidationError.ProvidedValue.Should().Be(1);
+                validationError.ErrorMessage.Should().Be("Value must be less than or equal to 0");
+                validationError.ErrorCode.Should().Be("NUM_GREATER_THAN");
+                validationError.IsTransient.Should().BeFalse();
+                validationError.ProvidedValue.Should().Be(1);
             }
         }
 

@@ -8,14 +8,14 @@ namespace SmoothValidation.RootValidators
 {
     public abstract class RootSyncValidator<TObject> : RootValidatorBase<TObject>, IRootValidator, ISyncValidator<TObject>
     {
-        public IList<PropertyValidationError> Validate(object obj)
+        public IList<ValidationError> Validate(object obj)
         {
             return Validate(Common.Cast<TObject>(obj));
         }
 
-        public IList<PropertyValidationError> Validate(TObject obj)
+        public IList<ValidationError> Validate(TObject obj)
         {
-            var validationErrors = new List<PropertyValidationError>();
+            var validationErrors = new List<ValidationError>();
 
             foreach (var propertyValidatorKvp in PropertyValidators)
             {

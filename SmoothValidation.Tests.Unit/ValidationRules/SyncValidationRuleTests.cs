@@ -38,7 +38,7 @@ namespace SmoothValidation.Tests.Unit.ValidationRules
         }
 
         [Test]
-        public void When_ObjectToValidateDoesNotMatchPredicateRequirements_Then_ListWithPropertyErrorIsReturned()
+        public void When_ObjectToValidateDoesNotMatchPredicateRequirements_Then_ListWithValidationErrorIsReturned()
         {
             // Arrange:
             var errorMessage = "cannot be null";

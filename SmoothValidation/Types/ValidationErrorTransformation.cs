@@ -1,6 +1,6 @@
 ﻿namespace SmoothValidation.Types
 {
-    public class PropertyValidationErrorTransformation
+    public class ValidationErrorTransformation
     {
         public string OverridenMessage { get; set; }
         public string OverriddenCode { get; set; }

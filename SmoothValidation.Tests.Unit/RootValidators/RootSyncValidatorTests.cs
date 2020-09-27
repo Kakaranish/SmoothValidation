@@ -23,7 +23,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
         }
 
         [Test]
-        public void For_ValidateObj_When_ValidObjectIsPassed_Then_ValidationPropertyErrorsAreReturned()
+        public void For_ValidateObj_When_ValidObjectIsPassed_Then_ValidationErrorsAreReturned()
         {
             // Arrange:
             var rootSyncValidator = new RootSyncValidatorImplementation();
@@ -37,7 +37,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
         }
 
         [Test]
-        public void For_Validate_When_ValidObjectIsPassed_Then_ValidationPropertyErrorsAreReturned()
+        public void For_Validate_When_ValidObjectIsPassed_Then_ValidationErrorsAreReturned()
         {
             // Arrange:
             var rootSyncValidator = new RootSyncValidatorImplementation();

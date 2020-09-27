@@ -17,23 +17,23 @@ namespace SmoothValidation.PropertyValidators
 
         internal override SyncPropertyValidator<TProp> PropertyValidator => this;
 
-        public IList<PropertyValidationError> Validate(object obj)
+        public IList<ValidationError> Validate(object obj)
         {
             return Validate(Common.Cast<TProp>(obj));
         }
 
-        public IList<PropertyValidationError> Validate(TProp obj)
+        public IList<ValidationError> Validate(TProp obj)
         {
-            var validationErrors = new List<PropertyValidationError>();
+            var validationErrors = new List<ValidationError>();
 
             foreach (var validationTask in ValidationTasks)
             {
                 var validator = (ISyncValidator)validationTask.Validator;
                 var validationErrorsForValidator = validator.Validate(obj);
 
-                foreach (var propertyValidationError in validationErrorsForValidator)
+                foreach (var validationError in validationErrorsForValidator)
                 {
-                    ProcessPropertyValidationError(propertyValidationError, validationTask.ErrorTransformation);
+                    ProcessValidationError(validationError, validationTask.ErrorTransformation);
                 }
                 validationErrors.AddRange(validationErrorsForValidator);
 

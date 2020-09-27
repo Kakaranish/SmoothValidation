@@ -6,6 +6,6 @@ namespace SmoothValidation.PropertyValidators
     public interface ISyncPropertyValidator : IPropertyValidator
     {
         Property Property { get; }
-        IList<PropertyValidationError> Validate(object obj);
+        IList<ValidationError> Validate(object obj);
     }
 }

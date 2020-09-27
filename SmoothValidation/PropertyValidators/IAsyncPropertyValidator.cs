@@ -8,6 +8,6 @@ namespace SmoothValidation.PropertyValidators
     {
         Property Property { get; }
 
-        Task<IList<PropertyValidationError>> Validate(object obj);
+        Task<IList<ValidationError>> Validate(object obj);
     }
 }

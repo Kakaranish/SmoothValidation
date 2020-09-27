@@ -19,14 +19,14 @@ namespace SmoothValidation.PropertyValidators
 
         internal override AsyncPropertyValidator<TProp> PropertyValidator => this;
 
-        public async Task<IList<PropertyValidationError>> Validate(object obj)
+        public async Task<IList<ValidationError>> Validate(object obj)
         {
             return await Validate(Common.Cast<TProp>(obj));
         }
 
-        public async Task<IList<PropertyValidationError>> Validate(TProp obj)
+        public async Task<IList<ValidationError>> Validate(TProp obj)
         {
-            var validationErrors = new List<PropertyValidationError>();
+            var validationErrors = new List<ValidationError>();
 
             foreach (var validationTask in ValidationTasks)
             {
@@ -34,9 +34,9 @@ namespace SmoothValidation.PropertyValidators
                     ? syncValidator.Validate(obj)
                     : await ((IAsyncValidator) validationTask.Validator).Validate(obj);
 
-                foreach (var propertyValidationError in validationErrorsForValidator)
+                foreach (var validationError in validationErrorsForValidator)
                 {
-                    ProcessPropertyValidationError(propertyValidationError, validationTask.ErrorTransformation);
+                    ProcessValidationError(validationError, validationTask.ErrorTransformation);
                 }
 
                 validationErrors.AddRange(validationErrorsForValidator);

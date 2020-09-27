@@ -340,12 +340,12 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
                 set => PropertyDisplayName = value;
             }
 
-            public IList<PropertyValidationError> Validate(string obj)
+            public IList<ValidationError> Validate(string obj)
             {
                 throw new NotImplementedException();
             }
 
-            public IList<PropertyValidationError> Validate(object obj)
+            public IList<ValidationError> Validate(object obj)
             {
                 throw new NotImplementedException();
             }

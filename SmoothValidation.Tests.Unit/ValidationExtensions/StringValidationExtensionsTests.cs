@@ -59,7 +59,7 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
 
         [TestCase(null)]
         [TestCase("")]
-        public void For_IsNotNullOrEmpty_When_ValidatedValueIsNullOrEmpty_Then_PropertyErrorIsReturned(string value)
+        public void For_IsNotNullOrEmpty_When_ValidatedValueIsNullOrEmpty_Then_ValidationErrorIsReturned(string value)
         {
             // Arrange:
             var validator = new InlineValidator<TestClass>();
@@ -83,7 +83,7 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
         }
 
         [Test]
-        public void For_IsNotNullOrEmpty_When_ValidatedValueIsNotNullOrEmpty_Then_NoPropertyErrorIsReturned()
+        public void For_IsNotNullOrEmpty_When_ValidatedValueIsNotNullOrEmpty_Then_NoValidationErrorIsReturned()
         {
             // Arrange:
             var validator = new InlineValidator<TestClass>();
@@ -105,7 +105,7 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
         [TestCase("")]
         [TestCase("  ")]
         [TestCase("  \t\n")]
-        public void For_IsNotNullOrWhitespace_When_ValidatedValueIsNullOrWhitespace_Then_PropertyErrorIsReturned(string value)
+        public void For_IsNotNullOrWhitespace_When_ValidatedValueIsNullOrWhitespace_Then_ValidationErrorIsReturned(string value)
         {
             // Arrange:
             var validator = new InlineValidator<TestClass>();

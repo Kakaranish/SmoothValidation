@@ -11,18 +11,18 @@ namespace SmoothValidation.RootValidators
 {
     public abstract class RootAsyncValidator<TObject> : RootValidatorBase<TObject>, IRootValidator, IAsyncValidator<TObject>
     {
-        public async Task<IList<PropertyValidationError>> Validate(object obj)
+        public async Task<IList<ValidationError>> Validate(object obj)
         {
             return await Validate(Common.Cast<TObject>(obj));
         }
 
-        public async Task<IList<PropertyValidationError>> Validate(TObject obj)
+        public async Task<IList<ValidationError>> Validate(TObject obj)
         {
-            var validationErrors = new List<PropertyValidationError>();
+            var validationErrors = new List<ValidationError>();
 
             foreach (var propertyValidatorKvp in PropertyValidators)
             {
-                IList<PropertyValidationError> validationErrorsForValidator;
+                IList<ValidationError> validationErrorsForValidator;
                 if (propertyValidatorKvp.Value is ISyncPropertyValidator syncPropertyValidator)
                 {
                     var propertyValue = syncPropertyValidator.Property.GetValue(obj);

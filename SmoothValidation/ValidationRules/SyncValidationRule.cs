@@ -15,18 +15,18 @@ namespace SmoothValidation.ValidationRules
             _validationPredicate = validationPredicate ?? throw new ArgumentNullException(nameof(validationPredicate));
         }
 
-        public IList<PropertyValidationError> Validate(object obj)
+        public IList<ValidationError> Validate(object obj)
         {
             return Validate((TProp)obj);
         }
 
-        public IList<PropertyValidationError> Validate(TProp obj)
+        public IList<ValidationError> Validate(TProp obj)
         {
             var isValid = _validationPredicate.Invoke(obj);
             
             return isValid
-                ? new List<PropertyValidationError>()
-                : new List<PropertyValidationError> { PropertyValidationError.CreateTransient(ErrorMessage, obj, ErrorCode)};
+                ? new List<ValidationError>()
+                : new List<ValidationError> { ValidationError.CreateTransient(ErrorMessage, obj, ErrorCode)};
         }
     }
 }

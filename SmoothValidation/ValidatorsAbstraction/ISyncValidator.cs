@@ -5,11 +5,11 @@ namespace SmoothValidation.ValidatorsAbstraction
 {
     public interface ISyncValidator : IValidator
     {
-        IList<PropertyValidationError> Validate(object obj);
+        IList<ValidationError> Validate(object obj);
     }
 
     public interface ISyncValidator<in TObject> : ISyncValidator
     {
-        IList<PropertyValidationError> Validate(TObject obj);
+        IList<ValidationError> Validate(TObject obj);
     }
 }

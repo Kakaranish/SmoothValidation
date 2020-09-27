@@ -2,7 +2,7 @@
 
 namespace SmoothValidation.Types
 {
-    public class PropertyValidationError
+    public class ValidationError
     {
         public string PropertyName { get; private set; }
         public string ErrorMessage { get; private set; }
@@ -11,7 +11,7 @@ namespace SmoothValidation.Types
         
         public bool IsTransient => PropertyName == null;
 
-        public PropertyValidationError(string propertyName, string errorMessage, object providedValue, string errorCode = null)
+        public ValidationError(string propertyName, string errorMessage, object providedValue, string errorCode = null)
         {
             PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
             ErrorMessage = errorMessage ?? throw new ArgumentNullException(nameof(errorMessage));
@@ -19,7 +19,7 @@ namespace SmoothValidation.Types
             ErrorCode = errorCode;
         }
 
-        private PropertyValidationError(string errorMessage, object providedValue, string errorCode = null)
+        private ValidationError(string errorMessage, object providedValue, string errorCode = null)
         {
             if (string.IsNullOrWhiteSpace(errorMessage)) throw new ArgumentNullException(nameof(errorMessage));
 
@@ -28,9 +28,9 @@ namespace SmoothValidation.Types
             ErrorCode = errorCode;
         }
 
-        public static PropertyValidationError CreateTransient(string errorMessage, object providedValue, string errorCode = null)
+        public static ValidationError CreateTransient(string errorMessage, object providedValue, string errorCode = null)
         {
-            return new PropertyValidationError(errorMessage, providedValue, errorCode);
+            return new ValidationError(errorMessage, providedValue, errorCode);
         }
 
         public void PrependParentPropertyName(string parentPropertyName)
@@ -54,7 +54,7 @@ namespace SmoothValidation.Types
             PropertyName = propertyName ?? throw new ArgumentNullException(nameof(propertyName));
         }
 
-        public PropertyValidationError ApplyTransformation(PropertyValidationErrorTransformation transformation)
+        public ValidationError ApplyTransformation(ValidationErrorTransformation transformation)
         {
             if (!string.IsNullOrWhiteSpace(transformation.OverridenMessage))
             {
