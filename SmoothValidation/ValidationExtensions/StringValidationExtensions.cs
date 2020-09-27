@@ -9,7 +9,7 @@ namespace SmoothValidation.ValidationExtensions
         public static TBuilder IsEqual<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator,
             string value, StringComparison stringComparison = StringComparison.CurrentCulture)
         {
-            var message = "Values are not equal but should be";
+            var message = $"Value should be equal to {value}";
             const string errorCode = "STR_IS_NOT_EQUAL";
 
             propertyValidator.AddRule(x => x.Equals(value, stringComparison), message, errorCode);
@@ -20,7 +20,7 @@ namespace SmoothValidation.ValidationExtensions
         public static TBuilder IsNotEqual<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator,
             string value, StringComparison stringComparison = StringComparison.CurrentCulture)
         {
-            var message = "Values are equal but should not be";
+            var message = $"Value should not be equal to {value}";
             const string errorCode = "STR_IS_EQUAL";
 
             propertyValidator.AddRule(x => !x.Equals(value, stringComparison), message, errorCode);
@@ -33,7 +33,7 @@ namespace SmoothValidation.ValidationExtensions
             var message = "Value is null or empty but should not be";
             const string errorCode = "STR_IS_NULL_OR_EMPTY";
 
-            propertyValidator.AddRule(x => !string.IsNullOrWhiteSpace(x), message, errorCode);
+            propertyValidator.AddRule(x => !string.IsNullOrEmpty(x), message, errorCode);
 
             return propertyValidator.PropertyValidator;
         }
@@ -44,6 +44,22 @@ namespace SmoothValidation.ValidationExtensions
             const string errorCode = "STR_IS_NULL_OR_WHITESPACE";
 
             propertyValidator.AddRule(x => !string.IsNullOrWhiteSpace(x), message, errorCode);
+
+            return propertyValidator.PropertyValidator;
+        }
+
+        public static TBuilder HasLength<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator,
+            int length)
+        {
+            if (length < 0)
+            {
+                throw new ArgumentException($"'{nameof(length)}' must be >= 0");
+            }
+
+            var message = $"Must have length equal to {length}";
+            const string errorCode = "STR_DIFFERENT_THAN_REQUIRED_LENGTH";
+
+            propertyValidator.AddRule(x => x.Length == length, message, errorCode);
 
             return propertyValidator.PropertyValidator;
         }
@@ -95,7 +111,7 @@ namespace SmoothValidation.ValidationExtensions
             var message = $"Must have value in range [{minLength}, {maxLength}](inclusive)";
             const string errorCode = "STR_LENGTH_OUT_RANGE";
 
-            propertyValidator.AddRule(x => x?.Length > minLength &&
+            propertyValidator.AddRule(x => x?.Length >= minLength &&
                                            x.Length <= maxLength, message, errorCode);
 
             return propertyValidator.PropertyValidator;
@@ -106,7 +122,7 @@ namespace SmoothValidation.ValidationExtensions
             var message = "Has invalid email format";
             const string errorCode = "STR_INVALID_EMAIL";
 
-            var emailRegex = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
+            var emailRegex = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
             propertyValidator.AddRule(x => Regex.IsMatch(x, emailRegex, RegexOptions.IgnoreCase),
                 message, errorCode);
 
@@ -125,9 +141,8 @@ namespace SmoothValidation.ValidationExtensions
                 throw new ArgumentException($"'{nameof(regex)}' represents invalid regex");
             }
 
-            var message = "Does not match regex";
+            var message = $"Does not match regex '{regex}'";
             const string errorCode = "STR_NOT_MATCHING_TO_REGEX";
-
 
             propertyValidator.AddRule(x => Regex.IsMatch(x, regex), message, errorCode);
 
