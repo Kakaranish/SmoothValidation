@@ -7,13 +7,13 @@ using System.Linq.Expressions;
 namespace SmoothValidation.Tests.Unit.Types
 {
     [TestFixture]
-    public class PropertyTests
+    public class MemberTests
     {
         [Test]
         public void When_ProvidedMemberInfoIsNull_Then_ExceptionIsThrown()
         {
             // Act & Assert:
-            Assert.Throws<ArgumentNullException>(() => new Property(null));
+            Assert.Throws<ArgumentNullException>(() => new Member(null));
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace SmoothValidation.Tests.Unit.Types
             var memberInfo = typeof(TestClass).GetMethod("SomeMethod");
 
             // Act & Assert:
-            var exception = Assert.Throws<ArgumentException>(() => new Property(memberInfo));
+            var exception = Assert.Throws<ArgumentException>(() => new Member(memberInfo));
             exception.Message.Should().Contain("is illegal type");
         }
 
@@ -37,7 +37,7 @@ namespace SmoothValidation.Tests.Unit.Types
             var memberInfo = typeof(TestClass).GetField(memberExpression.Member.Name);
 
             // Act:
-            var result = new Property(memberInfo);
+            var result = new Member(memberInfo);
 
             // Assert:
             result.MemberInfo.Should().NotBeNull();
@@ -56,7 +56,7 @@ namespace SmoothValidation.Tests.Unit.Types
             var memberInfo = typeof(TestClass).GetProperty(memberExpression.Member.Name);
 
             // Act:
-            var result = new Property(memberInfo);
+            var result = new Member(memberInfo);
 
             // Assert:
             result.MemberInfo.Should().NotBeNull();
@@ -75,8 +75,8 @@ namespace SmoothValidation.Tests.Unit.Types
             var memberInfo = typeof(TestClass).GetField(memberExpression.Member.Name);
 
             // Act & Assert:
-            var property = new Property(memberInfo);
-            Assert.Throws<ArgumentNullException>(() => property.GetValue(someObj));
+            var member = new Member(memberInfo);
+            Assert.Throws<ArgumentNullException>(() => member.GetValue(someObj));
         }
 
         [Test]
@@ -92,8 +92,8 @@ namespace SmoothValidation.Tests.Unit.Types
             var memberInfo = typeof(TestClass).GetField(memberExpression.Member.Name);
 
             // Act:
-            var property = new Property(memberInfo);
-            var result = property.GetValue(someObj);
+            var member = new Member(memberInfo);
+            var result = member.GetValue(someObj);
 
             // Assert:
             result.Should().Be("Value for field");
@@ -112,8 +112,8 @@ namespace SmoothValidation.Tests.Unit.Types
             var memberInfo = typeof(TestClass).GetProperty(memberExpression.Member.Name);
 
             // Act:
-            var property = new Property(memberInfo);
-            var result = property.GetValue(someObj);
+            var member = new Member(memberInfo);
+            var result = member.GetValue(someObj);
 
             // Assert:
             result.Should().Be("Value for property");

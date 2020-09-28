@@ -25,13 +25,13 @@ namespace SmoothValidation.RootValidators
                 IList<ValidationError> validationErrorsForValidator;
                 if (propertyValidatorKvp.Value is ISyncPropertyValidator syncPropertyValidator)
                 {
-                    var propertyValue = syncPropertyValidator.Property.GetValue(obj);
+                    var propertyValue = syncPropertyValidator.Member.GetValue(obj);
                     validationErrorsForValidator = syncPropertyValidator.Validate(propertyValue);
                 }
                 else
                 {
                     var asyncPropertyValidator = (IAsyncPropertyValidator) propertyValidatorKvp.Value;
-                    var propertyValue = asyncPropertyValidator.Property.GetValue(obj);
+                    var propertyValue = asyncPropertyValidator.Member.GetValue(obj);
                     validationErrorsForValidator = await asyncPropertyValidator.Validate(propertyValue);
                 }
 
@@ -52,7 +52,7 @@ namespace SmoothValidation.RootValidators
                     return asyncPropertyValidator;
                 }
 
-                throw new InvalidOperationException("Property already has assigned synchronous validator");
+                throw new InvalidOperationException("Member already has assigned synchronous validator");
             }
 
             var newPropertyValidator = new AsyncPropertyValidator<TProp>(memberInfo);

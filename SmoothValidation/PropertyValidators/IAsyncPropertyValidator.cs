@@ -6,7 +6,7 @@ namespace SmoothValidation.PropertyValidators
 {
     public interface IAsyncPropertyValidator : IPropertyValidator
     {
-        Property Property { get; }
+        Member Member { get; }
 
         Task<IList<ValidationError>> Validate(object obj);
     }

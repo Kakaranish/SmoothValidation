@@ -32,8 +32,8 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             var validator = new PropertyValidatorBaseTestImpl<string>(memberInfo);
 
             // Assert:
-            validator.Property.IsProperty.Should().BeTrue();
-            validator.Property.Name.Should().Be("SomeProperty");
+            validator.Member.IsProperty.Should().BeTrue();
+            validator.Member.Name.Should().Be("SomeProperty");
             validator.PropertyDisplayName.Should().Be("SomeProperty");
         }
 

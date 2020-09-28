@@ -15,12 +15,12 @@ namespace SmoothValidation.PropertyValidators
         
         protected PropertyValidatorBase(MemberInfo memberInfo)
         {
-            Property = new Property(memberInfo);
-            PropertyDisplayName = Property.Name;
+            Member = new Member(memberInfo);
+            PropertyDisplayName = Member.Name;
         }
 
         internal abstract TPropertyValidator PropertyValidator { get; }
-        public Property Property { get; }
+        public Member Member { get; }
         internal IReadOnlyList<ValidationTask> ValidationTasksAsReadonly => ValidationTasks.AsReadOnly();
         
         public TPropertyValidator AddRule(Predicate<TProp> predicate, string errorMessage, string errorCode = null)

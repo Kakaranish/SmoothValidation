@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace SmoothValidation.Types
 {
-    public class Property
+    public class Member
     {
         public static readonly IList<MemberTypes> LegalTypes = new List<MemberTypes>
         {
@@ -18,7 +18,7 @@ namespace SmoothValidation.Types
         public bool IsProperty => !IsField;
         public string Name => MemberInfo.Name;
 
-        public Property(MemberInfo memberInfo)
+        public Member(MemberInfo memberInfo)
         {
             MemberInfo = memberInfo ?? throw new ArgumentNullException(nameof(memberInfo));
 

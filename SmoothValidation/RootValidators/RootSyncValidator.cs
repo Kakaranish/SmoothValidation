@@ -20,7 +20,7 @@ namespace SmoothValidation.RootValidators
             foreach (var propertyValidatorKvp in PropertyValidators)
             {
                 var propertyValidator = (ISyncPropertyValidator)propertyValidatorKvp.Value;
-                var propertyValue = propertyValidator.Property.GetValue(obj);
+                var propertyValue = propertyValidator.Member.GetValue(obj);
 
                 var errorsForValidator = propertyValidator.Validate(propertyValue);
                 validationErrors.AddRange(errorsForValidator);
