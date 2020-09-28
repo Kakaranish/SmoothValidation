@@ -171,7 +171,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             var validationError = validationErrors.First();
             validationError.ErrorMessage.Should().Be(message);
             validationError.ErrorCode.Should().Be(code);
-            validationError.PropertyName.Should().Be("SomeProperty");
+            validationError.PropertyPath.ToString().Should().Be("SomeProperty");
             validationError.ProvidedValue.Should().Be(toValidate);
         }
 
@@ -200,7 +200,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             var validationError = validationErrors.First();
             validationError.ErrorMessage.Should().Be(message);
             validationError.ErrorCode.Should().Be(code);
-            validationError.PropertyName.Should().Be("SomeProperty");
+            validationError.PropertyPath.ToString().Should().Be("SomeProperty");
             validationError.ProvidedValue.Should().Be(toValidate);
         }
 
@@ -233,12 +233,12 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             
             validationErrors[0].ErrorMessage.Should().Be("Cannot be x");
             validationErrors[0].ErrorCode.Should().Be("MUST_NOT_BE_X");
-            validationErrors[0].PropertyName.Should().Be("OverridenPropertyDisplayName");
+            validationErrors[0].PropertyPath.ToString().Should().Be("OverridenPropertyDisplayName");
             validationErrors[0].ProvidedValue.Should().Be(toValidate);
             
             validationErrors[1].ErrorMessage.Should().Be("must be null");
             validationErrors[1].ErrorCode.Should().Be("MUST_BE_NULL");
-            validationErrors[1].PropertyName.Should().Be("OverridenPropertyDisplayName");
+            validationErrors[1].PropertyPath.ToString().Should().Be("OverridenPropertyDisplayName");
             validationErrors[1].ProvidedValue.Should().Be(toValidate);
         }
 
@@ -268,7 +268,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("must be null");
             validationErrors[0].ErrorCode.Should().Be("MUST_BE_NULL");
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be(toValidate);
         }
 
@@ -298,7 +298,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("SOME MESSAGE");
             validationErrors[0].ErrorCode.Should().Be("SOME CODE");
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be(toValidate);
         }
     }

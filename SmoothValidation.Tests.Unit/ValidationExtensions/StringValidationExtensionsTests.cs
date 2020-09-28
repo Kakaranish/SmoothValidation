@@ -28,8 +28,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("Value should be equal to y");
             validationErrors[0].ErrorCode.Should().Be("STR_IS_NOT_EQUAL");
-            validationErrors[0].IsTransient.Should().Be(false);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be("x");
         }
 
@@ -52,8 +52,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("Value should not be equal to x");
             validationErrors[0].ErrorCode.Should().Be("STR_IS_EQUAL");
-            validationErrors[0].IsTransient.Should().Be(false);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be("x");
         }
 
@@ -77,8 +77,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("Value is null or empty but should not be");
             validationErrors[0].ErrorCode.Should().Be("STR_IS_NULL_OR_EMPTY");
-            validationErrors[0].IsTransient.Should().Be(false);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be(value);
         }
 
@@ -123,8 +123,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("Value is null or whitespace but should not be");
             validationErrors[0].ErrorCode.Should().Be("STR_IS_NULL_OR_WHITESPACE");
-            validationErrors[0].IsTransient.Should().Be(false);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be(value);
         }
 
@@ -161,8 +161,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("Cannot have value less than 5");
             validationErrors[0].ErrorCode.Should().Be("STR_LESS_THAN_MIN_LENGTH");
-            validationErrors[0].IsTransient.Should().Be(false);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be(value);
         }
 
@@ -220,8 +220,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("Cannot have value greater than 5");
             validationErrors[0].ErrorCode.Should().Be("STR_GREATER_THAN_MAX_LENGTH");
-            validationErrors[0].IsTransient.Should().Be(false);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be(value);
         }
 
@@ -292,8 +292,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("Must have value in range [5, 7](inclusive)");
             validationErrors[0].ErrorCode.Should().Be("STR_LENGTH_OUT_RANGE");
-            validationErrors[0].IsTransient.Should().Be(false);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be(value);
         }
 
@@ -349,8 +349,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("Must have length equal to 5");
             validationErrors[0].ErrorCode.Should().Be("STR_DIFFERENT_THAN_REQUIRED_LENGTH");
-            validationErrors[0].IsTransient.Should().Be(false);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be(value);
         }
 
@@ -386,8 +386,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be($"Does not match regex '{regex}'");
             validationErrors[0].ErrorCode.Should().Be("STR_NOT_MATCHING_TO_REGEX");
-            validationErrors[0].IsTransient.Should().Be(false);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be("Blah blah");
         }
 
@@ -432,8 +432,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("Has invalid email format");
             validationErrors[0].ErrorCode.Should().Be("STR_INVALID_EMAIL");
-            validationErrors[0].IsTransient.Should().Be(false);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
             validationErrors[0].ProvidedValue.Should().Be(email);
         }
 

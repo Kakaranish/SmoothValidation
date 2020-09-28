@@ -29,14 +29,14 @@ namespace SmoothValidation.Tests.Unit.GeneralTests
 
             validationErrors[0].ErrorMessage.Should().Contain("Cannot have value less");
             validationErrors[0].ErrorCode.Should().Be("STR_LESS_THAN_MIN_LENGTH");
-            validationErrors[0].IsTransient.Should().BeFalse();
-            validationErrors[0].PropertyName.Should().Be("StringProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().BeFalse();
+            validationErrors[0].PropertyPath.ToString().Should().Be("StringProperty");
             validationErrors[0].ProvidedValue.Should().Be("");
 
             validationErrors[1].ErrorMessage.Should().Contain("Value must be greater than");
             validationErrors[1].ErrorCode.Should().Be("NUM_LESS_OR_THAN_OR_EQUAL_TO");
-            validationErrors[1].IsTransient.Should().BeFalse();
-            validationErrors[1].PropertyName.Should().Be("IntField");
+            validationErrors[1].PropertyPath.IsEmpty.Should().BeFalse();
+            validationErrors[1].PropertyPath.ToString().Should().Be("IntField");
             validationErrors[1].ProvidedValue.Should().Be(0);
         }
 
@@ -69,14 +69,14 @@ namespace SmoothValidation.Tests.Unit.GeneralTests
 
             validationErrors[0].ErrorMessage.Should().Contain("Cannot have value less");
             validationErrors[0].ErrorCode.Should().Be("STR_LESS_THAN_MIN_LENGTH");
-            validationErrors[0].IsTransient.Should().BeFalse();
-            validationErrors[0].PropertyName.Should().Be("StringProperty");
+            validationErrors[0].PropertyPath.IsEmpty.Should().BeFalse();
+            validationErrors[0].PropertyPath.ToString().Should().Be("StringProperty");
             validationErrors[0].ProvidedValue.Should().Be("");
 
             validationErrors[1].ErrorMessage.Should().Contain("Value must be greater than");
             validationErrors[1].ErrorCode.Should().Be("NUM_LESS_OR_THAN_OR_EQUAL_TO");
-            validationErrors[1].IsTransient.Should().BeFalse();
-            validationErrors[1].PropertyName.Should().Be("IntField");
+            validationErrors[1].PropertyPath.IsEmpty.Should().BeFalse();
+            validationErrors[1].PropertyPath.ToString().Should().Be("IntField");
             validationErrors[1].ProvidedValue.Should().Be(0);
         }
 

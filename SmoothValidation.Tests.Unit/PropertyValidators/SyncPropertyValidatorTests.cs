@@ -57,15 +57,15 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
 
             // Assert:
             result.Count.Should().Be(2);
-            result[0].IsTransient.Should().Be(false);
+            result[0].PropertyPath.IsEmpty.Should().Be(false);
             result[0].ProvidedValue.Should().Be("x");
-            result[0].PropertyName.Should().Be("SomeProperty");
+            result[0].PropertyPath.ToString().Should().Be("SomeProperty");
             result[0].ErrorMessage.Should().Be("cannot be x");
             result[0].ErrorCode.Should().Be("NOT_X");
 
-            result[1].IsTransient.Should().Be(false);
+            result[1].PropertyPath.IsEmpty.Should().Be(false);
             result[1].ProvidedValue.Should().Be("x");
-            result[1].PropertyName.Should().Be("SomeProperty");
+            result[1].PropertyPath.ToString().Should().Be("SomeProperty");
             result[1].ErrorMessage.Should().Be("must be null");
             result[1].ErrorCode.Should().Be("CANNOT_BE_NULL");
         }
@@ -85,9 +85,9 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             var result = validator.Validate(toValidate);
 
             // Assert:
-            result[0].IsTransient.Should().Be(false);
+            result[0].PropertyPath.IsEmpty.Should().Be(false);
             result[0].ProvidedValue.Should().Be("y");
-            result[0].PropertyName.Should().Be("SomeProperty");
+            result[0].PropertyPath.ToString().Should().Be("SomeProperty");
             result[0].ErrorMessage.Should().Be("must be null");
             result[0].ErrorCode.Should().Be("CANNOT_BE_NULL");
         }
@@ -108,9 +108,9 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
 
             // Assert:
             result.Count.Should().Be(1);
-            result[0].IsTransient.Should().Be(false);
+            result[0].PropertyPath.IsEmpty.Should().Be(false);
             result[0].ProvidedValue.Should().Be("x");
-            result[0].PropertyName.Should().Be("SomeProperty");
+            result[0].PropertyPath.ToString().Should().Be("SomeProperty");
             result[0].ErrorMessage.Should().Be("cannot be x");
             result[0].ErrorCode.Should().Be("NOT_X");
         }
@@ -131,9 +131,9 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
 
             // Assert:
             result.Count.Should().Be(1);
-            result[0].IsTransient.Should().Be(false);
+            result[0].PropertyPath.IsEmpty.Should().Be(false);
             result[0].ProvidedValue.Should().Be("x");
-            result[0].PropertyName.Should().Be("SomeProperty");
+            result[0].PropertyPath.ToString().Should().Be("SomeProperty");
             result[0].ErrorMessage.Should().Be("overridden message");
             result[0].ErrorCode.Should().Be("overridden code");
         }

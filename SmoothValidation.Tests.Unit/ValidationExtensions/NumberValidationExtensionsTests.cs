@@ -39,7 +39,7 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             {
                 validationError.ErrorMessage.Should().Be("Value must be greater than 0");
                 validationError.ErrorCode.Should().Be("NUM_LESS_OR_THAN_OR_EQUAL_TO");
-                validationError.IsTransient.Should().BeFalse();
+                validationError.PropertyPath.IsEmpty.Should().BeFalse();
                 validationError.ProvidedValue.Should().Be(-0);
             }
         }
@@ -104,7 +104,7 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             {
                 validationError.ErrorMessage.Should().Be("Value must be greater than or equal to 0");
                 validationError.ErrorCode.Should().Be("NUM_LESS_THAN");
-                validationError.IsTransient.Should().BeFalse();
+                validationError.PropertyPath.IsEmpty.Should().BeFalse();
                 validationError.ProvidedValue.Should().Be(-1);
             }
         }
@@ -169,7 +169,7 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             {
                 validationError.ErrorMessage.Should().Be("Value must be less than 0");
                 validationError.ErrorCode.Should().Be("NUM_GREATER_OR_THAN_OR_EQUAL_TO");
-                validationError.IsTransient.Should().BeFalse();
+                validationError.PropertyPath.IsEmpty.Should().BeFalse();
                 validationError.ProvidedValue.Should().Be(0);
             }
         }
@@ -234,7 +234,7 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             {
                 validationError.ErrorMessage.Should().Be("Value must be less than or equal to 0");
                 validationError.ErrorCode.Should().Be("NUM_GREATER_THAN");
-                validationError.IsTransient.Should().BeFalse();
+                validationError.PropertyPath.IsEmpty.Should().BeFalse();
                 validationError.ProvidedValue.Should().Be(1);
             }
         }

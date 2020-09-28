@@ -225,9 +225,12 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         }
 
         [TestCase(null)]
-        [TestCase("")]
-        [TestCase("   ")]
-        public void For_SetPropertyDisplayName_When_ProvidedDisplayNameIsNull_Then_ExceptionIsThrown(string propertyDisplayName)
+        [TestCase("\t\t")]
+        [TestCase("  ")]
+        [TestCase("@Bool")]
+        [TestCase("9Type")]
+        [TestCase("_Parent.@static")]
+        public void For_SetPropertyDisplayName_When_ProvidedDisplayNameIsInvalid_Then_ExceptionIsThrown(string propertyDisplayName)
         {
             // Arrange:
             var memberInfo = CreateTestMemberInfo();
@@ -235,8 +238,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             var previousDisplayName = validator.PropertyDisplayName;
 
             // Act & Assert:
-            var exception = Assert.Throws<ArgumentException>(() => validator.SetPropertyDisplayName(propertyDisplayName));
-            exception.Message.Should().Contain("cannot be null or whitespace");
+            Assert.Throws(Is.AssignableTo<Exception>(), () => validator.SetPropertyDisplayName(propertyDisplayName));
             previousDisplayName.Should().Be("SomeProperty");
         }
 

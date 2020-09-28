@@ -82,10 +82,7 @@ namespace SmoothValidation.PropertyValidators
 
         public TPropertyValidator SetPropertyDisplayName(string propertyDisplayName)
         {
-            if (string.IsNullOrWhiteSpace(propertyDisplayName))
-            {
-                throw new ArgumentException($"'{nameof(propertyDisplayName)}' cannot be null or whitespace");
-            }
+            Common.EnsurePropertyNameIsValid(propertyDisplayName);
 
             PropertyDisplayName = propertyDisplayName;
 
@@ -95,14 +92,7 @@ namespace SmoothValidation.PropertyValidators
         protected void ProcessPropertyValidationError(PropertyValidationError propertyValidationError, PropertyValidationErrorTransformation errorTransformation)
         protected void ProcessValidationError(ValidationError validationError, ValidationErrorTransformation errorTransformation)
         {
-            if (validationError.IsTransient)
-            {
-                validationError.SetPropertyName(PropertyDisplayName);
-            }
-            else
-            {
-                validationError.PrependParentPropertyName(PropertyDisplayName);
-            }
+            validationError.PropertyPath.PrependPropertyName(PropertyDisplayName);
 
             validationError.ApplyTransformation(errorTransformation);
         }

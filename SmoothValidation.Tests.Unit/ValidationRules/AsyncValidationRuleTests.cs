@@ -66,16 +66,14 @@ namespace SmoothValidation.Tests.Unit.ValidationRules
             result.Count.Should().Be(1);
             result.First().ErrorMessage.Should().Be("cannot be null");
             result.First().ErrorCode.Should().Be("NOT_NULL");
-            result.First().IsTransient.Should().BeTrue();
             result.First().ProvidedValue.Should().Be(toValidate);
-            result.First().PropertyName.Should().Be(null);
+            result.First().PropertyPath.IsEmpty.Should().BeTrue();
 
             resultForObj.Count.Should().Be(1);
             resultForObj.First().ErrorMessage.Should().Be("cannot be null");
             resultForObj.First().ErrorCode.Should().Be("NOT_NULL");
-            resultForObj.First().IsTransient.Should().BeTrue();
+            resultForObj.First().PropertyPath.IsEmpty.Should().BeTrue();
             resultForObj.First().ProvidedValue.Should().Be(toValidate);
-            resultForObj.First().PropertyName.Should().Be(null);
         }
     }
 }

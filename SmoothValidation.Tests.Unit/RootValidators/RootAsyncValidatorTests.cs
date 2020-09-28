@@ -61,7 +61,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
 
             // Act & Assert: 
             var exception = Assert.Throws<InvalidOperationException>(() => rootAsyncValidator.SetupAsync(expression));
-            exception.Message.Should().Be("Property already has assigned synchronous validator");
+            exception.Message.Should().Be("Member already has assigned synchronous validator");
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("cannot be null");
             validationErrors[0].ErrorCode.Should().Be("NOT_NULL");
-            validationErrors[0].IsTransient.Should().Be(false);
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
             validationErrors[0].ProvidedValue.Should().Be(null);
         }
 
@@ -128,7 +128,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("cannot be null");
             validationErrors[0].ErrorCode.Should().Be("NOT_NULL");
-            validationErrors[0].IsTransient.Should().Be(false);
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
             validationErrors[0].ProvidedValue.Should().Be(null);
         }
 
@@ -162,12 +162,12 @@ namespace SmoothValidation.Tests.Unit.RootValidators
 
             validationErrors[0].ErrorMessage.Should().Be("cannot be null");
             validationErrors[0].ErrorCode.Should().Be("NOT_NULL");
-            validationErrors[0].IsTransient.Should().Be(false);
+            validationErrors[0].PropertyPath.IsEmpty.Should().Be(false);
             validationErrors[0].ProvidedValue.Should().Be(null);
 
             validationErrors[1].ErrorMessage.Should().Be("must be x");
             validationErrors[1].ErrorCode.Should().Be("MUST_BE_X");
-            validationErrors[1].IsTransient.Should().Be(false);
+            validationErrors[1].PropertyPath.IsEmpty.Should().Be(false);
             validationErrors[1].ProvidedValue.Should().Be("y");
         }
 

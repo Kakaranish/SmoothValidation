@@ -27,7 +27,7 @@ namespace SmoothValidation.ValidationRules
 
             return isValid
                 ? new List<ValidationError>()
-                : new List<ValidationError> { ValidationError.CreateTransient(ErrorMessage, obj, ErrorCode) };
+                : new List<ValidationError> { new ValidationError(ErrorMessage, obj, ErrorCode) };
         }
     }
 }

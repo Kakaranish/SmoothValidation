@@ -62,12 +62,12 @@ namespace SmoothValidation.Tests.Unit.RootValidators
             validationErrors[0].ErrorMessage.Should().Be("cannot be null");
             validationErrors[0].ErrorCode.Should().Be("NOT_NULL");
             validationErrors[0].ProvidedValue.Should().Be(null);
-            validationErrors[0].PropertyName.Should().Be("SomeProperty");
+            validationErrors[0].PropertyPath.ToString().Should().Be("SomeProperty");
 
             validationErrors[1].ErrorMessage.Should().Be("must be greater than 0");
             validationErrors[1].ErrorCode.Should().Be("GREATER_THAN_0");
             validationErrors[1].ProvidedValue.Should().Be(-1);
-            validationErrors[1].PropertyName.Should().Be("IntField");
+            validationErrors[1].PropertyPath.ToString().Should().Be("IntField");
         }
 
         private class RootSyncValidatorImplementation : RootSyncValidator<RootValidatorsTestsCommon.TestClass>

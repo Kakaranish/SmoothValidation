@@ -31,8 +31,8 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("Value cannot be null");
             validationErrors[0].ErrorCode.Should().Be("NOT_NULL");
-            validationErrors[0].IsTransient.Should().BeFalse();
-            validationErrors[0].PropertyName.Should().Be("Name");
+            validationErrors[0].PropertyPath.IsEmpty.Should().BeFalse();
+            validationErrors[0].PropertyPath.ToString().Should().Be("Name");
         }
 
         [Test]
@@ -103,14 +103,14 @@ namespace SmoothValidation.Tests.Unit.ValidationExtensions
 
             validationErrors[0].ErrorMessage.Should().Be("Value must be null");
             validationErrors[0].ErrorCode.Should().Be("NULL");
-            validationErrors[0].IsTransient.Should().BeFalse();
-            validationErrors[0].PropertyName.Should().Be("Name");
+            validationErrors[0].PropertyPath.IsEmpty.Should().BeFalse();
+            validationErrors[0].PropertyPath.ToString().Should().Be("Name");
             validationErrors[0].ProvidedValue.Should().Be("Some Name");
 
             validationErrors[1].ErrorMessage.Should().Be("Value must be null");
             validationErrors[1].ErrorCode.Should().Be("NULL");
-            validationErrors[1].IsTransient.Should().BeFalse();
-            validationErrors[1].PropertyName.Should().Be("Age");
+            validationErrors[1].PropertyPath.IsEmpty.Should().BeFalse();
+            validationErrors[1].PropertyPath.ToString().Should().Be("Age");
             validationErrors[1].ProvidedValue.Should().Be(0);
         }
 

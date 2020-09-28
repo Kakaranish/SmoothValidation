@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using NUnit.Framework;
 using SmoothValidation.InlineValidators;
 using System;
@@ -28,7 +28,7 @@ namespace SmoothValidation.Tests.Unit.GeneralTests
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("must start with uppercase");
             validationErrors[0].ErrorCode.Should().Be("STARTS_WITH_UPPER");
-            validationErrors[0].PropertyName.Should().Be("Street");
+            validationErrors[0].PropertyPath.ToString().Should().Be("Street");
             validationErrors[0].ProvidedValue.Should().Be("street");
         }
 
@@ -70,7 +70,7 @@ namespace SmoothValidation.Tests.Unit.GeneralTests
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("cannot be null");
             validationErrors[0].ErrorCode.Should().Be("NOT_NULL");
-            validationErrors[0].PropertyName.Should().Be("Street");
+            validationErrors[0].PropertyPath.ToString().Should().Be("Street");
             validationErrors[0].ProvidedValue.Should().Be(null);
         }
 
@@ -98,7 +98,7 @@ namespace SmoothValidation.Tests.Unit.GeneralTests
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("not null");
             validationErrors[0].ErrorCode.Should().Be("MUST_NOT_BE_NULL");
-            validationErrors[0].PropertyName.Should().Be("StreetName");
+            validationErrors[0].PropertyPath.ToString().Should().Be("StreetName");
             validationErrors[0].ProvidedValue.Should().Be(null);
         }
 
@@ -135,7 +135,7 @@ namespace SmoothValidation.Tests.Unit.GeneralTests
             validationErrors.Count.Should().Be(1);
             validationErrors[0].ErrorMessage.Should().Be("not null");
             validationErrors[0].ErrorCode.Should().Be("MUST_NOT_BE_NULL");
-            validationErrors[0].PropertyName.Should().Be("CustomLine1.StreetName");
+            validationErrors[0].PropertyPath.ToString().Should().Be("CustomLine1.StreetName");
             validationErrors[0].ProvidedValue.Should().Be(null);
         }
 
@@ -184,12 +184,12 @@ namespace SmoothValidation.Tests.Unit.GeneralTests
 
             validationErrors[0].ErrorMessage.Should().Be("not null");
             validationErrors[0].ErrorCode.Should().Be("MUST_NOT_BE_NULL");
-            validationErrors[0].PropertyName.Should().Be("CustomAddress.CustomLine1.StreetName");
+            validationErrors[0].PropertyPath.ToString().Should().Be("CustomAddress.CustomLine1.StreetName");
             validationErrors[0].ProvidedValue.Should().Be(null);
 
             validationErrors[1].ErrorMessage.Should().Be("must be > 0");
             validationErrors[1].ErrorCode.Should().Be("GREATER_THAN_ZERO");
-            validationErrors[1].PropertyName.Should().Be("Age");
+            validationErrors[1].PropertyPath.ToString().Should().Be("Age");
             validationErrors[1].ProvidedValue.Should().Be(-1);
         }
 
