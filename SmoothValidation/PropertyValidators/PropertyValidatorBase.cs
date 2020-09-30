@@ -1,10 +1,11 @@
-using SmoothValidation.ValidationRules;
+﻿using SmoothValidation.ValidationRules;
 using SmoothValidation.ValidatorsAbstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SmoothValidation.Types;
+using SmoothValidation.Utils;
 
 namespace SmoothValidation.PropertyValidators
 {
@@ -89,7 +90,7 @@ namespace SmoothValidation.PropertyValidators
             return PropertyValidator;
         }
 
-        protected void ProcessPropertyValidationError(PropertyValidationError propertyValidationError, PropertyValidationErrorTransformation errorTransformation)
+        // TODO: Test
         protected void ProcessValidationError(ValidationError validationError, ValidationErrorTransformation errorTransformation)
         {
             validationError.PropertyPath.PrependPropertyName(PropertyDisplayName);

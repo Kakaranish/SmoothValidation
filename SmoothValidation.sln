@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmoothValidation", "SmoothV
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp.csproj", "{BE2C8518-58F4-45E8-885E-6406BE23CAA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmoothValidation.Tests.Unit", "SmoothValidation.Tests.Unit\SmoothValidation.Tests.Unit.csproj", "{829869AC-7ACD-4F88-A7EF-89569661EDC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmoothValidation.Tests.Unit", "SmoothValidation.Tests.Unit\SmoothValidation.Tests.Unit.csproj", "{829869AC-7ACD-4F88-A7EF-89569661EDC8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmoothValidation.DependencyInjection", "SmoothValidation.DependencyInjection\SmoothValidation.DependencyInjection.csproj", "{53759DC5-EE7E-4EE8-A135-9E69728CBEE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp", "TestWebApp\TestWebApp.csproj", "{35A9AC5F-43D4-4258-A5DC-D86BFE15D2AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{829869AC-7ACD-4F88-A7EF-89569661EDC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{829869AC-7ACD-4F88-A7EF-89569661EDC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{829869AC-7ACD-4F88-A7EF-89569661EDC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53759DC5-EE7E-4EE8-A135-9E69728CBEE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53759DC5-EE7E-4EE8-A135-9E69728CBEE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53759DC5-EE7E-4EE8-A135-9E69728CBEE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53759DC5-EE7E-4EE8-A135-9E69728CBEE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35A9AC5F-43D4-4258-A5DC-D86BFE15D2AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35A9AC5F-43D4-4258-A5DC-D86BFE15D2AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35A9AC5F-43D4-4258-A5DC-D86BFE15D2AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35A9AC5F-43D4-4258-A5DC-D86BFE15D2AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
