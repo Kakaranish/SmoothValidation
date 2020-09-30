@@ -17,15 +17,16 @@ namespace SmoothValidation.Types
         public PropertyPath(string propertyName)
         {
             Common.EnsurePropertyNameIsValid(propertyName);
-
-            _propertyNames = new List<string> { propertyName };
+            
+            _propertyNames = new List<string>();
+            _propertyNames.AddRange(propertyName.Split("."));
         }
 
         public void PrependPropertyName(string propertyName)
         {
             Common.EnsurePropertyNameIsValid(propertyName);
             _propertyNames ??= new List<string>();
-            _propertyNames.Insert(0, propertyName);
+            _propertyNames.InsertRange(0, propertyName.Split("."));
         }
 
         public override string ToString()

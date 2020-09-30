@@ -1,7 +1,11 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
 using SmoothValidation.InlineValidators;
 using System;
+using System.Linq;
+using Newtonsoft.Json;
+using SmoothValidation.Types;
+using SmoothValidation.ValidationExtensions;
 
 namespace SmoothValidation.Tests.Unit.GeneralTests
 {
@@ -178,6 +182,9 @@ namespace SmoothValidation.Tests.Unit.GeneralTests
 
             // Act:
             var validationErrors = personValidator.Validate(toValidate);
+            var validationResult = validationErrors.ToValidationResult();
+            var validationResultAsJson = JsonConvert.SerializeObject(validationResult);
+
 
             // Assert:
             validationErrors.Count.Should().Be(2);

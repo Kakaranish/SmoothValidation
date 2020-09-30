@@ -30,17 +30,35 @@ namespace SmoothValidation.Tests.Unit.Types
             Assert.Throws(Is.AssignableTo<Exception>(), () => new PropertyPath(propertyName));
         }
 
-        [TestCase("Parent.Property")]
-        [TestCase("Name")]
-        public void For_Ctor_When_ProvidedPropertyNameIsValid_Then_ObjectIsInstantiated(string propertyName)
+        [Test]
+        public void For_Ctor_When_ProvidedPropertyNameIsValid_Then_ObjectIsInstantiated()
         {
+            // Arrange:
+            var propertyName = "SomeProperty";
+
             // Act:
             var propertyPath = new PropertyPath(propertyName);
 
             // Assert:
             propertyPath.IsEmpty.Should().BeFalse();
             propertyPath.PropertyNames.Count.Should().Be(1);
-            propertyPath.PropertyNames[0].Should().Be(propertyName);
+            propertyPath.PropertyNames[0].Should().Be("SomeProperty");
+        }
+
+        [Test]
+        public void For_Ctor_When_ProvidedMultipleValidPropertyNames_Then_ObjectIsInstantiated()
+        {
+            // Arrange:
+            var propertyName = "Parent.Property";
+
+            // Act:
+            var propertyPath = new PropertyPath(propertyName);
+
+            // Assert:
+            propertyPath.IsEmpty.Should().BeFalse();
+            propertyPath.PropertyNames.Count.Should().Be(2);
+            propertyPath.PropertyNames[0].Should().Be("Parent");
+            propertyPath.PropertyNames[1].Should().Be("Property");
         }
 
         [TestCase(null)]
