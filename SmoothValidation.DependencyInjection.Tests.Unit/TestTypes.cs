@@ -43,10 +43,14 @@ namespace SmoothValidation.DependencyInjection.Tests.Unit
         }
     }
 
-    internal class TestDuplicatedPersonValidatorSync : ClassValidator<Person>
+    internal class TestAlwaysFailingPersonValidatorSync : ClassValidator<Person>
     {
         protected override void SetupRules()
         {
+            Setup(x => x.FirstName)
+                .AddRule(x => false, "Invalid FirstName");
+            Setup(x => x.LastName)
+                .AddRule(x => false, "Invalid LastName");
         }
     }
 

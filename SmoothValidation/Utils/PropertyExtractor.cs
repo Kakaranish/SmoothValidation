@@ -18,13 +18,14 @@ namespace SmoothValidation.Utils
                 throw new ArgumentException($"'{nameof(expression)}' must be member expression");
             }
 
-            var fieldInfo = typeof(TObject).GetField(memberExpression.Member.Name);
+            const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic;
+            var fieldInfo = typeof(TObject).GetField(memberExpression.Member.Name, bindingFlags);
             if (fieldInfo != null)
             {
                 return fieldInfo;
             }
-
-            return typeof(TObject).GetProperty(memberExpression.Member.Name);
+            
+            return typeof(TObject).GetProperty(memberExpression.Member.Name, bindingFlags);
         }
     }
 }
