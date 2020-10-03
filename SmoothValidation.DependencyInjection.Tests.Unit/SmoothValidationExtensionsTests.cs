@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using SmoothValidation.ClassValidators;
 using System.Reflection;
+using SmoothValidation.DependencyInjection.Tests.Unit.TestsCommon;
 
 namespace SmoothValidation.DependencyInjection.Tests.Unit
 {
@@ -22,7 +23,7 @@ namespace SmoothValidation.DependencyInjection.Tests.Unit
             // Assert:
             // Only internal & public class validators from TestTypes should be registered
             services.Verify(x => x.Add(It.Is<ServiceDescriptor>(y =>
-                y.Lifetime == ServiceLifetime.Scoped)), Times.Exactly(7));
+                y.Lifetime == ServiceLifetime.Scoped)), Times.Exactly(8));
         }
 
         // This class should not be registered

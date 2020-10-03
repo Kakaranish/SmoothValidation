@@ -1,6 +1,6 @@
 ﻿using SmoothValidation.ClassValidators;
 
-namespace SmoothValidation.DependencyInjection.Tests.Unit
+namespace SmoothValidation.DependencyInjection.Tests.Unit.TestsCommon
 {
     internal class Person
     {
@@ -50,6 +50,17 @@ namespace SmoothValidation.DependencyInjection.Tests.Unit
             Setup(x => x.FirstName)
                 .AddRule(x => false, "Invalid FirstName");
             Setup(x => x.LastName)
+                .AddRule(x => false, "Invalid LastName");
+        }
+    }
+
+    internal class TestAlwaysFailingPersonValidatorAsync : ClassValidatorAsync<Person>
+    {
+        protected override void SetupRules()
+        {
+            SetupAsync(x => x.FirstName)
+                .AddRule(x => false, "Invalid FirstName");
+            SetupAsync(x => x.LastName)
                 .AddRule(x => false, "Invalid LastName");
         }
     }

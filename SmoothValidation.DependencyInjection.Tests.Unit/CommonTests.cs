@@ -1,14 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Routing;
 using Moq;
 using NUnit.Framework;
 using SmoothValidation.ClassValidators;
-using SmoothValidation.DependencyInjection.Filters;
 using SmoothValidation.Types;
 using System;
 using System.Collections.Generic;
@@ -22,7 +16,7 @@ namespace SmoothValidation.DependencyInjection.Tests.Unit
         public void For_GetValueValidatorExplicitly_When_ThereIsNoValueToValidateInActionContext_Then_ExceptionIsThrown()
         {
             // Arrange:
-            var actionContextMock = CreateActionExecutingContextMock();
+            var actionContextMock = TestsCommon.Utils.CreateActionExecutingContextMock();
             actionContextMock.Setup(x => x.ActionArguments.Values)
                 .Returns(new List<object>());
 
@@ -40,7 +34,7 @@ namespace SmoothValidation.DependencyInjection.Tests.Unit
         public void For_GetValueValidatorExplicitly_When_ValidatorServiceIsNotRegistered_Then_ExceptionIsThrown()
         {
             // Arrange:
-            var actionContextMock = CreateActionExecutingContextMock();
+            var actionContextMock = TestsCommon.Utils.CreateActionExecutingContextMock();
             var actionArguments = new List<object> { new TypeToValidate { SomeProperty = "SOME_VALUE" } };
             actionContextMock.Setup(x => x.ActionArguments.Values)
                 .Returns(actionArguments);
@@ -63,7 +57,7 @@ namespace SmoothValidation.DependencyInjection.Tests.Unit
         public void For_GetValueValidatorExplicitly_When_ValidatorIsRegistered_Then_ValueValidatorPairIsReturned()
         {
             // Arrange:
-            var actionContextMock = CreateActionExecutingContextMock();
+            var actionContextMock = TestsCommon.Utils.CreateActionExecutingContextMock();
             var actionArguments = new List<object> { new TypeToValidate { SomeProperty = "SOME_VALUE" } };
             actionContextMock.Setup(x => x.ActionArguments.Values)
                 .Returns(actionArguments);
@@ -94,7 +88,7 @@ namespace SmoothValidation.DependencyInjection.Tests.Unit
             // Arrange:
             var actionArguments = new List<object> { new TypeToValidate { SomeProperty = "SOME_VALUE" } };
 
-            var actionContextMock = CreateActionExecutingContextMock();
+            var actionContextMock = TestsCommon.Utils.CreateActionExecutingContextMock();
             actionContextMock.Setup(x => x.ActionArguments.Values).Returns(actionArguments);
             var actionContext = actionContextMock.Object;
 
@@ -114,7 +108,7 @@ namespace SmoothValidation.DependencyInjection.Tests.Unit
         public void For_GetValueValidatorImplicitly_When_AnyActionArgumentHasCorrespondingValidator_Then_ValueValidatorPairForFirstSuchArgumentIsReturned()
         {
             // Arrange:
-            var actionContextMock = CreateActionExecutingContextMock();
+            var actionContextMock = TestsCommon.Utils.CreateActionExecutingContextMock();
             var actionArguments = new List<object>
             {
                 "SOME_STR",
@@ -150,7 +144,7 @@ namespace SmoothValidation.DependencyInjection.Tests.Unit
             var testObj = new ValidTestValidatorClass();
 
             // Act: 
-            var result = Common.GetValidationMethod(testObj);
+            var result = Common.GetValidateSyncMethod(testObj);
 
             // Assert: 
             result.Should().NotBeNull();
@@ -164,30 +158,10 @@ namespace SmoothValidation.DependencyInjection.Tests.Unit
             var testObj = new InvalidTestValidatorClass();
 
             // Act: 
-            var result = Common.GetValidationMethod(testObj);
+            var result = Common.GetValidateSyncMethod(testObj);
 
             // Assert: 
             result.Should().BeNull();
-        }
-
-        private static Mock<ActionExecutingContext> CreateActionExecutingContextMock()
-        {
-            var modelState = new ModelStateDictionary();
-            modelState.AddModelError("name", "invalid");
-
-            var actionContext = new ActionContext(
-                Mock.Of<HttpContext>(),
-                Mock.Of<RouteData>(),
-                Mock.Of<ActionDescriptor>(),
-                modelState
-            );
-
-            return new Mock<ActionExecutingContext>(
-                actionContext,
-                new List<IFilterMetadata>(),
-                new Dictionary<string, object>(),
-                Mock.Of<Controller>()
-            );
         }
 
         private class TypeToValidate

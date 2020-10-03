@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using SmoothValidation.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SmoothValidation.Types;
+using System.Threading.Tasks;
 
-namespace SmoothValidation.DependencyInjection.Filters
+namespace SmoothValidation.DependencyInjection
 {
     internal static class Common
     {
@@ -54,14 +55,25 @@ namespace SmoothValidation.DependencyInjection.Filters
             throw new InvalidOperationException("There is no argument to validate in action context");
         }
 
-        internal static MethodInfo GetValidationMethod(object validator)
+        internal static MethodInfo GetValidateSyncMethod(object validator)
+        {
+            var returnType = typeof(IList<ValidationError>);
+            return GetValidateMethod(validator, returnType);
+        }
+        internal static MethodInfo GetValidateAsyncMethod(object validator)
+        {
+            var returnType = typeof(Task<IList<ValidationError>>);
+            return GetValidateMethod(validator, returnType);
+        }
+
+        private static MethodInfo GetValidateMethod(object validator, Type returnType)
         {
             return validator
                 .GetType()
                 .GetMethods()
                 .FirstOrDefault(x =>
                     x.Name == "Validate" &&
-                    x.ReturnType == typeof(IList<ValidationError>) &&
+                    x.ReturnType == returnType &&
                     x.GetParameters()[0].ParameterType == typeof(object));
         }
     }

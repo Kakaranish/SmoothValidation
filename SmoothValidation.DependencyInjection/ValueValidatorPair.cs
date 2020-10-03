@@ -1,4 +1,4 @@
-﻿namespace SmoothValidation.DependencyInjection.Filters
+﻿namespace SmoothValidation.DependencyInjection
 {
     internal class ValueValidatorPair
     {
