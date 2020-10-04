@@ -1,5 +1,4 @@
-﻿using System;
-using SmoothValidation.Types;
+﻿using SmoothValidation.Types;
 using SmoothValidation.ValidatorsAbstraction;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +7,10 @@ using SmoothValidation.Utils;
 
 namespace SmoothValidation.PropertyValidators
 {
-    public sealed class SyncPropertyValidator<TProp> : PropertyValidatorBase<SyncPropertyValidator<TProp>, TProp>,
+    public class SyncPropertyValidator<TProp> : PropertyValidatorBase<SyncPropertyValidator<TProp>, TProp>,
         ISyncPropertyValidator, ISyncValidator<TProp>
     {
-        public SyncPropertyValidator(MemberInfo memberInfo) : base(memberInfo)
+        internal SyncPropertyValidator(MemberInfo memberInfo) : base(memberInfo)
         {
         }
 

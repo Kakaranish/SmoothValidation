@@ -90,7 +90,6 @@ namespace SmoothValidation.PropertyValidators
             return PropertyValidator;
         }
 
-        // TODO: Test
         protected void ProcessValidationError(ValidationError validationError, ValidationErrorTransformation errorTransformation)
         {
             validationError.PropertyPath.PrependPropertyName(PropertyDisplayName);

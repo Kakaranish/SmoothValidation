@@ -10,10 +10,10 @@ using SmoothValidation.Utils;
 
 namespace SmoothValidation.PropertyValidators
 {
-    public sealed class AsyncPropertyValidator<TProp> : PropertyValidatorBase<AsyncPropertyValidator<TProp>, TProp>,
+    public class AsyncPropertyValidator<TProp> : PropertyValidatorBase<AsyncPropertyValidator<TProp>, TProp>,
         IAsyncPropertyValidator, IAsyncValidator<TProp>
     {
-        public AsyncPropertyValidator(MemberInfo memberInfo) : base(memberInfo)
+        internal AsyncPropertyValidator(MemberInfo memberInfo) : base(memberInfo)
         {
         }
 
