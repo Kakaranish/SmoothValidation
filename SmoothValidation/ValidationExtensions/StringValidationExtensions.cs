@@ -30,7 +30,7 @@ namespace SmoothValidation.ValidationExtensions
 
         public static TBuilder IsNotNullOrEmpty<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
         {
-            var message = "Value is null or empty but should not be";
+            const string message = "Value is null or empty but should not be";
             const string errorCode = "STR_IS_NULL_OR_EMPTY";
 
             propertyValidator.AddRule(x => !string.IsNullOrEmpty(x), message, errorCode);
@@ -119,7 +119,7 @@ namespace SmoothValidation.ValidationExtensions
 
         public static TBuilder IsEmailAddress<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
         {
-            var message = "Has invalid email format";
+            const string message = "Has invalid email format";
             const string errorCode = "STR_INVALID_EMAIL";
 
             var emailRegex = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
@@ -145,6 +145,66 @@ namespace SmoothValidation.ValidationExtensions
             const string errorCode = "STR_NOT_MATCHING_TO_REGEX";
 
             propertyValidator.AddRule(x => Regex.IsMatch(x, regex), message, errorCode);
+
+            return propertyValidator.PropertyValidator;
+        }
+
+        public static TBuilder IsGuid<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        {
+            const string message = "It is not guid";
+            const string errorCode = "STR_IS_NOT_GUID";
+
+            propertyValidator.AddRule(x => Guid.TryParse(x, out _), message, errorCode);
+
+            return propertyValidator.PropertyValidator;
+        }
+
+        public static TBuilder IsIntegerParsable<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        {
+            var message = $"It is not parsable to integer";
+            const string errorCode = "STR_NOT_PARSABLE_TO_INT";
+
+            propertyValidator.AddRule(x => int.TryParse(x, out _), message, errorCode);
+
+            return propertyValidator.PropertyValidator;
+        }
+
+        public static TBuilder IsDecimalParsable<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        {
+            var message = $"It is not parsable to decimal";
+            const string errorCode = "STR_NOT_PARSABLE_TO_DECIMAL";
+
+            propertyValidator.AddRule(x => decimal.TryParse(x, out _), message, errorCode);
+
+            return propertyValidator.PropertyValidator;
+        }
+
+        public static TBuilder IsFloatParsable<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        {
+            var message = $"It is not parsable to float";
+            const string errorCode = "STR_NOT_PARSABLE_TO_FLOAT";
+
+            propertyValidator.AddRule(x => float.TryParse(x, out _), message, errorCode);
+
+            return propertyValidator.PropertyValidator;
+        }
+
+        public static TBuilder IsDoubleParsable<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        {
+            var message = $"It is not parsable to double";
+            const string errorCode = "STR_NOT_PARSABLE_TO_DOUBLE";
+
+            propertyValidator.AddRule(x => double.TryParse(x, out _), message, errorCode);
+
+            return propertyValidator.PropertyValidator;
+        }
+
+        public static TBuilder IsBoolParsable<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        {
+            var message = $"It is not parsable to bool";
+            const string errorCode = "STR_NOT_PARSABLE_TO_BOOL";
+
+            propertyValidator.AddRule(x => bool.TryParse(x, out _), message, errorCode);
 
             return propertyValidator.PropertyValidator;
         }
