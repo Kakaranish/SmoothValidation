@@ -318,7 +318,9 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
             return typeof(TestClass).GetProperty(memberExpression.Member.Name);
         }
 
-        private class PropertyValidatorBaseTestImpl<TProp> : PropertyValidatorBase<PropertyValidatorBaseTestImpl<TProp>, string>, ISyncValidator<string>
+        private class PropertyValidatorBaseTestImpl<TProp> : 
+            PropertyValidatorBase<PropertyValidatorBaseTestImpl<TProp>, object, string>, 
+            ISyncValidator<string>
         {
             public PropertyValidatorBaseTestImpl(MemberInfo memberInfo) : base(memberInfo)
             {

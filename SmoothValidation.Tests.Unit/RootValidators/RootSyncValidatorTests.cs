@@ -19,7 +19,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
             var result = rootSyncValidator.Setup(x => x.SomeProperty);
 
             // Assert:
-            result.Should().BeAssignableTo<SyncPropertyValidator<string>>();
+            result.Should().BeAssignableTo<SyncPropertyValidator<RootValidatorsTestsCommon.TestClass, string>>();
         }
 
         [Test]

@@ -14,16 +14,16 @@ namespace SmoothValidation.RootValidators
 
         internal IReadOnlyDictionary<string, IPropertyValidator> PropertyValidatorsAsReadonly => PropertyValidators;
 
-        public SyncPropertyValidator<TProp> Setup<TProp>(Expression<Func<TObject, TProp>> expression)
+        public SyncPropertyValidator<TObject, TProp> Setup<TProp>(Expression<Func<TObject, TProp>> expression)
         {
             var memberInfo = PropertyExtractor.Extract(expression);
 
             if (PropertyValidators.TryGetValue(memberInfo.Name, out var propertyValidator))
             {
-                return (SyncPropertyValidator<TProp>)propertyValidator;
+                return (SyncPropertyValidator<TObject, TProp>)propertyValidator;
             }
 
-            var newPropertyValidator = new SyncPropertyValidator<TProp>(memberInfo);
+            var newPropertyValidator = new SyncPropertyValidator<TObject, TProp>(memberInfo);
             PropertyValidators.Add(memberInfo.Name, newPropertyValidator);
 
             return newPropertyValidator;

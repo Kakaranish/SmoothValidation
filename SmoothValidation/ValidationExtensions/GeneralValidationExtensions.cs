@@ -4,7 +4,7 @@ namespace SmoothValidation.ValidationExtensions
 {
     public static class GeneralValidationExtensions
     {
-        public static TBuilder IsNull<TBuilder, TProperty>(this PropertyValidatorBase<TBuilder, TProperty> propertyValidator)
+        public static TBuilder IsNull<TBuilder, TObject, TProperty>(this PropertyValidatorBase<TBuilder, TObject, TProperty> propertyValidator)
         {
             var message = "Value must be null";
             const string errorCode = "NULL";
@@ -14,7 +14,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsNotNull<TBuilder, TProperty>(this PropertyValidatorBase<TBuilder, TProperty> propertyValidator)
+        public static TBuilder IsNotNull<TBuilder, TObject, TProperty>(this PropertyValidatorBase<TBuilder, TObject, TProperty> propertyValidator)
         {
             var message = "Value cannot be null";
             const string errorCode = "NOT_NULL";

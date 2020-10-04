@@ -9,7 +9,7 @@ using SmoothValidation.Utils;
 
 namespace SmoothValidation.PropertyValidators
 {
-    public abstract class PropertyValidatorBase<TPropertyValidator, TProp>
+    public abstract class PropertyValidatorBase<TPropertyValidator, TObject, TProp>
     {
         protected readonly List<ValidationTask> ValidationTasks = new List<ValidationTask>();
         protected string PropertyDisplayName { get; private set; }

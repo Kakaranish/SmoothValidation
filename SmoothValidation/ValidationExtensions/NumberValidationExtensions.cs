@@ -5,8 +5,8 @@ namespace SmoothValidation.ValidationExtensions
 {
     public static class NumberValidationExtensions
     {
-        public static TBuilder IsGreaterThan<TBuilder, TNumber>(
-            this PropertyValidatorBase<TBuilder, TNumber> propertyValidator, TNumber value)
+        public static TBuilder IsGreaterThan<TBuilder, TObject, TNumber>(
+            this PropertyValidatorBase<TBuilder, TObject, TNumber> propertyValidator, TNumber value)
             where TNumber : IComparable<TNumber>
         {
             var message = $"Value must be greater than {value}";
@@ -17,8 +17,8 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsGreaterThanOrEqualTo<TBuilder, TNumber>(
-            this PropertyValidatorBase<TBuilder, TNumber> propertyValidator, TNumber value)
+        public static TBuilder IsGreaterThanOrEqualTo<TBuilder, TObject, TNumber>(
+            this PropertyValidatorBase<TBuilder, TObject, TNumber> propertyValidator, TNumber value)
             where TNumber : IComparable<TNumber>
         {
             var message = $"Value must be greater than or equal to {value}";
@@ -29,8 +29,8 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsLessThan<TBuilder, TNumber>(
-            this PropertyValidatorBase<TBuilder, TNumber> propertyValidator, TNumber value)
+        public static TBuilder IsLessThan<TBuilder, TObject, TNumber>(
+            this PropertyValidatorBase<TBuilder, TObject, TNumber> propertyValidator, TNumber value)
             where TNumber : IComparable<TNumber>
         {
             var message = $"Value must be less than {value}";
@@ -41,8 +41,8 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsLessThanOrEqualTo<TBuilder, TNumber>(
-            this PropertyValidatorBase<TBuilder, TNumber> propertyValidator, TNumber value)
+        public static TBuilder IsLessThanOrEqualTo<TBuilder, TObject, TNumber>(
+            this PropertyValidatorBase<TBuilder, TObject, TNumber> propertyValidator, TNumber value)
             where TNumber : IComparable<TNumber>
         {
             var message = $"Value must be less than or equal to {value}";

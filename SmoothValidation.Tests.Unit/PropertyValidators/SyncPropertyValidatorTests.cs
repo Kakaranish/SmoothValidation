@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using SmoothValidation.PropertyValidators;
 using System;
+using SmoothValidation.Tests.Unit.TestsCommon;
 
 namespace SmoothValidation.Tests.Unit.PropertyValidators
 {
@@ -12,7 +12,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         public void For_Ctor_When_ProvidedMemberInfoValueIsNull_Then_ExceptionIsThrown()
         {
             // Act & Assert:
-            Assert.Throws<ArgumentNullException>(() => new SyncPropertyValidator<string>(null));
+            Assert.Throws<ArgumentNullException>(() => new TestSyncPropertyValidator<string>(null));
         }
 
         [Test]
@@ -20,7 +20,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new SyncPropertyValidator<string>(memberInfo);
+            var validator = new TestSyncPropertyValidator<string>(memberInfo);
             validator.AddRule(x => x != "x", "cannot be x", "NOT_X");
             var toValidate = 10;
 
@@ -34,7 +34,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new SyncPropertyValidator<string>(memberInfo);
+            var validator = new TestSyncPropertyValidator<string>(memberInfo);
             validator.AddRule(x => x != "x", "cannot be x", "NOT_X");
             var toValidate = (object) "x";
 
@@ -47,7 +47,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new SyncPropertyValidator<string>(memberInfo);
+            var validator = new TestSyncPropertyValidator<string>(memberInfo);
             validator.AddRule(x => x != "x", "cannot be x", "NOT_X");
             validator.AddRule(x => x == null, "must be null", "CANNOT_BE_NULL");
             var toValidate = "x";
@@ -75,7 +75,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new SyncPropertyValidator<string>(memberInfo);
+            var validator = new TestSyncPropertyValidator<string>(memberInfo);
             validator.AddRule(x => x != "x", "cannot be x", "NOT_X");
             validator.StopValidationAfterFailure();
             validator.AddRule(x => x == null, "must be null", "CANNOT_BE_NULL");
@@ -97,7 +97,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new SyncPropertyValidator<string>(memberInfo);
+            var validator = new TestSyncPropertyValidator<string>(memberInfo);
             validator.AddRule(x => x != "x", "cannot be x", "NOT_X");
             validator.StopValidationAfterFailure();
             validator.AddRule(x => x == null, "must be null", "CANNOT_BE_NULL");
@@ -120,7 +120,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new SyncPropertyValidator<string>(memberInfo);
+            var validator = new TestSyncPropertyValidator<string>(memberInfo);
             validator.AddRule(x => x != "x", "cannot be x", "NOT_X");
             validator.WithMessage("overridden message");
             validator.WithCode("overridden code");

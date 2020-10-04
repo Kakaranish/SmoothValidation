@@ -10,14 +10,15 @@ using SmoothValidation.Utils;
 
 namespace SmoothValidation.PropertyValidators
 {
-    public class AsyncPropertyValidator<TProp> : PropertyValidatorBase<AsyncPropertyValidator<TProp>, TProp>,
+    public class AsyncPropertyValidator<TObject, TProp> : 
+        PropertyValidatorBase<AsyncPropertyValidator<TObject, TProp>, TObject, TProp>,
         IAsyncPropertyValidator, IAsyncValidator<TProp>
     {
         internal AsyncPropertyValidator(MemberInfo memberInfo) : base(memberInfo)
         {
         }
 
-        internal override AsyncPropertyValidator<TProp> PropertyValidator => this;
+        internal override AsyncPropertyValidator<TObject, TProp> PropertyValidator => this;
 
         public async Task<IList<ValidationError>> Validate(object obj)
         {
@@ -50,7 +51,7 @@ namespace SmoothValidation.PropertyValidators
             return validationErrors;
         }
 
-        public AsyncPropertyValidator<TProp> AddRule(Func<TProp, Task<bool>> predicate, string errorMessage, string errorCode = null)
+        public AsyncPropertyValidator<TObject, TProp> AddRule(Func<TProp, Task<bool>> predicate, string errorMessage, string errorCode = null)
         {
             var validationRule = new AsyncValidationRule<TProp>(predicate, errorMessage, errorCode);
             ValidationTasks.Add(new ValidationTask(validationRule, false));
@@ -58,7 +59,7 @@ namespace SmoothValidation.PropertyValidators
             return this;
         }
 
-        public AsyncPropertyValidator<TProp> SetValidator(IAsyncValidator<TProp> otherValidator)
+        public AsyncPropertyValidator<TObject, TProp> SetValidator(IAsyncValidator<TProp> otherValidator)
         {
             if (otherValidator == null) throw new ArgumentNullException(nameof(otherValidator));
             if (otherValidator == this) throw new ArgumentException("Detected circular reference");

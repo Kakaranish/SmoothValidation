@@ -6,7 +6,7 @@ namespace SmoothValidation.ValidationExtensions
 {
     public static class StringValidationExtensions
     {
-        public static TBuilder IsEqual<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator,
+        public static TBuilder IsEqual<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator,
             string value, StringComparison stringComparison = StringComparison.CurrentCulture)
         {
             var message = $"Value should be equal to {value}";
@@ -17,7 +17,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsNotEqual<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator,
+        public static TBuilder IsNotEqual<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator,
             string value, StringComparison stringComparison = StringComparison.CurrentCulture)
         {
             var message = $"Value should not be equal to {value}";
@@ -28,7 +28,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsNotNullOrEmpty<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        public static TBuilder IsNotNullOrEmpty<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator)
         {
             const string message = "Value is null or empty but should not be";
             const string errorCode = "STR_IS_NULL_OR_EMPTY";
@@ -38,7 +38,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsNotNullOrWhiteSpace<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        public static TBuilder IsNotNullOrWhiteSpace<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator)
         {
             var message = "Value is null or whitespace but should not be";
             const string errorCode = "STR_IS_NULL_OR_WHITESPACE";
@@ -48,7 +48,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder HasLength<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator,
+        public static TBuilder HasLength<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator,
             int length)
         {
             if (length < 0)
@@ -64,7 +64,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder HasMinLength<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator,
+        public static TBuilder HasMinLength<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator,
             int minLength)
         {
             if (minLength < 0)
@@ -80,7 +80,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder HasMaxLength<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator,
+        public static TBuilder HasMaxLength<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator,
             int maxLength)
         {
             if (maxLength < 0)
@@ -96,7 +96,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder HasLengthBetween<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator,
+        public static TBuilder HasLengthBetween<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator,
             int minLength, int maxLength)
         {
             if (minLength < 0 || maxLength < 0)
@@ -117,7 +117,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsEmailAddress<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        public static TBuilder IsEmailAddress<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator)
         {
             const string message = "Has invalid email format";
             const string errorCode = "STR_INVALID_EMAIL";
@@ -129,7 +129,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder MatchesRegex<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator,
+        public static TBuilder MatchesRegex<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator,
             string regex)
         {
             try
@@ -149,7 +149,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsGuid<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        public static TBuilder IsGuid<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator)
         {
             const string message = "It is not guid";
             const string errorCode = "STR_IS_NOT_GUID";
@@ -159,7 +159,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsIntegerParsable<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        public static TBuilder IsIntegerParsable<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator)
         {
             var message = $"It is not parsable to integer";
             const string errorCode = "STR_NOT_PARSABLE_TO_INT";
@@ -169,7 +169,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsDecimalParsable<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        public static TBuilder IsDecimalParsable<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator)
         {
             var message = $"It is not parsable to decimal";
             const string errorCode = "STR_NOT_PARSABLE_TO_DECIMAL";
@@ -179,7 +179,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsFloatParsable<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        public static TBuilder IsFloatParsable<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator)
         {
             var message = $"It is not parsable to float";
             const string errorCode = "STR_NOT_PARSABLE_TO_FLOAT";
@@ -189,7 +189,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsDoubleParsable<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        public static TBuilder IsDoubleParsable<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator)
         {
             var message = $"It is not parsable to double";
             const string errorCode = "STR_NOT_PARSABLE_TO_DOUBLE";
@@ -199,7 +199,7 @@ namespace SmoothValidation.ValidationExtensions
             return propertyValidator.PropertyValidator;
         }
 
-        public static TBuilder IsBoolParsable<TBuilder>(this PropertyValidatorBase<TBuilder, string> propertyValidator)
+        public static TBuilder IsBoolParsable<TBuilder, TObject>(this PropertyValidatorBase<TBuilder, TObject, string> propertyValidator)
         {
             var message = $"It is not parsable to bool";
             const string errorCode = "STR_NOT_PARSABLE_TO_BOOL";

@@ -7,14 +7,15 @@ using SmoothValidation.Utils;
 
 namespace SmoothValidation.PropertyValidators
 {
-    public class SyncPropertyValidator<TProp> : PropertyValidatorBase<SyncPropertyValidator<TProp>, TProp>,
+    public class SyncPropertyValidator<TObject, TProp> : 
+        PropertyValidatorBase<SyncPropertyValidator<TObject, TProp>, TObject, TProp>,
         ISyncPropertyValidator, ISyncValidator<TProp>
     {
         internal SyncPropertyValidator(MemberInfo memberInfo) : base(memberInfo)
         {
         }
 
-        internal override SyncPropertyValidator<TProp> PropertyValidator => this;
+        internal override SyncPropertyValidator<TObject, TProp> PropertyValidator => this;
 
         public IList<ValidationError> Validate(object obj)
         {

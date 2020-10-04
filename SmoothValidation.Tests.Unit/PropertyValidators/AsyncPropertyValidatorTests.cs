@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using SmoothValidation.PropertyValidators;
 using SmoothValidation.ValidatorsAbstraction;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SmoothValidation.Tests.Unit.TestsCommon;
 
 namespace SmoothValidation.Tests.Unit.PropertyValidators
 {
@@ -16,7 +16,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         public void For_Ctor_When_ProvidedMemberInfoValueIsNull_Then_ExceptionIsThrown()
         {
             // Act & Assert:
-            Assert.Throws<ArgumentNullException>(() => new AsyncPropertyValidator<string>(null));
+            Assert.Throws<ArgumentNullException>(() => new TestAsyncPropertyValidator<string>(null));
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             Func<string, Task<bool>> validationPredicate = null;
 
             // Act & Assert:
@@ -37,7 +37,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             Func<string, Task<bool>> validationPredicate = async x =>
             {
                 await Task.CompletedTask;
@@ -54,7 +54,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             Func<string, Task<bool>> validationPredicate = async x =>
             {
                 await Task.CompletedTask;
@@ -75,7 +75,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
 
             // Act & Assert:
             Assert.Throws<ArgumentNullException>(() => validator.SetValidator(null));
@@ -86,7 +86,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
 
             // Act & Assert:
             var exception = Assert.Throws<ArgumentException>(() => validator.SetValidator(validator));
@@ -98,7 +98,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
 
             // Act:
             validator.SetValidator(Mock.Of<IAsyncValidator<string>>());
@@ -115,7 +115,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             validator.SetValidator(Mock.Of<IAsyncValidator<string>>()); // First .SetValidator() call
 
             // Act & Assert:
@@ -130,7 +130,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             var toValidate = 10;
 
             // Act & Assert:
@@ -143,7 +143,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             var toValidate = (object) "x";
 
             // Act & Assert:
@@ -155,7 +155,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             Predicate<string> validationPredicate = value => value != "x";
             const string message = "SOME MESSAGE";
             const string code = "SOME CODE";
@@ -180,7 +180,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             Func<string, Task<bool>> validationPredicate = async x =>
             {
                 await Task.CompletedTask;
@@ -209,7 +209,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             Func<string, Task<bool>> validationPredicate = async x =>
             {
                 await Task.CompletedTask;
@@ -247,7 +247,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             Func<string, Task<bool>> validationPredicate = async x =>
             {
                 await Task.CompletedTask;
@@ -277,7 +277,7 @@ namespace SmoothValidation.Tests.Unit.PropertyValidators
         {
             // Arrange:
             var memberInfo = PropertyValidatorTestsCommon.CreateTestMemberInfo();
-            var validator = new AsyncPropertyValidator<string>(memberInfo);
+            var validator = new TestAsyncPropertyValidator<string>(memberInfo);
             Func<string, Task<bool>> validationPredicate = async x =>
             {
                 await Task.CompletedTask;

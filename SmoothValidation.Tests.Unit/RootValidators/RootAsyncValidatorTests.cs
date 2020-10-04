@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using SmoothValidation.PropertyValidators;
 using SmoothValidation.RootValidators;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using SmoothValidation.PropertyValidators;
 
 namespace SmoothValidation.Tests.Unit.RootValidators
 {
@@ -33,7 +33,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
             var result = rootAsyncValidator.SetupAsync(expression);
 
             // Assert:
-            result.Should().BeAssignableTo<AsyncPropertyValidator<string>>();
+            result.Should().BeAssignableTo<AsyncPropertyValidator<RootValidatorsTestsCommon.TestClass, string>>();
         }
 
         [Test]
@@ -148,7 +148,7 @@ namespace SmoothValidation.Tests.Unit.RootValidators
                 }, "cannot be null", "NOT_NULL");
             rootAsyncValidator.Setup(x => x.OtherProperty)
                 .AddRule(x => x == "x", "must be x", "MUST_BE_X");
-            var toValidate = (object) new RootValidatorsTestsCommon.TestClass
+            var toValidate = (object)new RootValidatorsTestsCommon.TestClass
             {
                 SomeProperty = null,
                 OtherProperty = "y"
